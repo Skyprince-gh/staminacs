@@ -1,0 +1,141 @@
+.grid{
+  display: flex;
+  background: var(--primary-black);
+  border-radius: 10px;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 20px;
+  width: 500px
+}
+
+.grid>h2 {
+  width:100%;
+  height: 20%;;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  color: white;
+  margin-bottom: 30px;
+}
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%
+}
+.textInput{
+  width: 90%;
+  margin: 10px 0px; 
+  height: 40px;
+  border-radius: 10px;
+  border: none;
+  background: rgba(24,24,24,0.4);
+  padding-left: 20px;
+  outline:none;
+  user-select: none;
+  font-weight: lighter;
+  color: white;
+}
+::placeholder{
+  color: white;
+}
+
+.links{
+  display: flex;
+  width: 100%;
+  font-size: 14px;
+  justify-content: space-between;
+  color: white;
+  margin: 20px 0px;  
+}
+.left{
+  overflow: visible;
+}
+
+.left p {
+  height: 100%;
+}
+
+.left a {
+  display: flex;
+  height: 100%;
+  align-items: center;
+}
+
+.left p:hover{
+  color: var(--primary-yellow)
+}
+.left p:active{
+  color: black
+}
+.left a {
+  height: 100%;
+}
+.left a:hover{
+  color: var(--primary-yellow)
+}
+.left a:active{
+  color: black
+}
+
+.rigth,.left{
+  width: 50%;
+}
+
+.submit{
+  height: 40px;
+  width: 100px;
+  border-radius: 20px;
+  border: none;
+  background: var(--primary-yellow);
+  color: black;
+}
+
+.submit:hover{
+ border: solid 2px var(--primary-yellow);
+ background: transparent;
+ color: white;
+}
+
+.submit:active{
+  color: black;
+  background: var(--primary-yellow);
+  font-weight: bold;
+}
+
+.hasNoAccount{
+  height: 20%;
+  width: 100%;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.hasNoAccount a {
+  color: white;
+}
+
+.hasNoAccount a:hover{
+  color: rgba(255, 183, 0)
+}
+
+.hasNoAccount a:active{
+  color: black;
+}
+
+.autoWidth{
+  width: auto ;
+}
+
+a{
+  text-decoration: none;
+  color: white;
+}
+
+.backButton{
+  display: flex;
+  align-items: center;
+}
+

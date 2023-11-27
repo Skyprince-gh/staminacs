@@ -1,0 +1,96 @@
+:root {
+  --primary-yellow: #FFB800;
+  --primary-black: #252525;
+  --primary-bkg-fade: rgba(84, 84, 84, 0.87);
+  --primary-grey-2:#787878;
+  --green1: #319E28;
+  --shadow-color: rgba(0, 0, 0, 0.16);
+  --shadow-color2: rgba(0, 0, 0, 0.3);
+  --shadow-color3: rgba(0, 0, 0, 0.5);
+  --primary-grey: #fff;
+  --red: #ff1717;
+  --testcss: #00fb0d2e;
+}
+
+* {
+  margin: 0px;
+  padding: 0px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-sizing: border-box;
+  user-select: none;
+}
+
+body {
+  background: white;
+  overflow: hidden;
+}
+
+.isActiveLink {
+  color: var(--primary-yellow);
+  text-decoration: underliwne;
+}
+
+@media screen and (max-height: 700px) {
+  html{
+    font-size: 14px;
+  }
+}
+
+.container {
+  width: 100vw;
+  height: 100vh;
+  background-color:  var(--primary-bkg-fade);
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  top: 0px;
+  left: 0px;
+  margin: 0;
+  z-index: 5;
+}
+
+.close-div {
+  width: 100vw;
+  height: 100vh;
+  background-color:  transparent;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  top: 0px;
+  left: 0px;
+  margin: 0;
+  z-index: 0;
+}
+
+@keyframes expandWidth {
+  0% {
+    width: 200px;
+  }
+  100% {
+    width: 400px;
+  }
+}
+@keyframes shrinkWidth {
+  0% {
+    width: 400px;
+  }
+  100% {
+    width: 200px;
+  }
+}
+
+/* Apply the animation to your element */
+.intro-animate {
+  width: 200px; /* Starting width */
+  animation: expandWidth 0.5s ease-in-out 0.2s forwards;
+}
+
+.outro-animate {
+  width: 400px; /* Starting width */
+  animation: shrinkWidth 0.5s ease-in-out 0.2s forwards;
+}
+
