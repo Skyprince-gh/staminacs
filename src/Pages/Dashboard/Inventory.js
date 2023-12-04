@@ -30,6 +30,9 @@ import BulkEditModal from "../../Components/Forms/BulkEdit";
 import { collection, getDocs, query } from "firebase/firestore";
 import { Dashboard_Header as Header } from "../../Components/Header";
 import EditItem from "./EditItem";
+import { getDownloadURL, ref } from "firebase/storage";
+import { actions as authActions } from "../../store/auth";
+import { storage } from "../../util/firebase-store";
 
 const Inventory = () => {
   const [quickAddIsActivated, setQuickAddIsActivated] = useState(false);
@@ -61,6 +64,10 @@ const Inventory = () => {
 
   const storeName = useSelector((state) => state.auth.userData.businessName);
   const userID = useSelector((state) => state.auth.userAuthCred.uid);
+  const userImages_StorageReference = ref(
+    storage,
+    `${userID}/images/userImage`
+  );
 
   useEffect(() => {
     getDocumentByID("Users", userID, "SearchIndexes", "Init").then(
@@ -81,10 +88,15 @@ const Inventory = () => {
     getDocs(q).then((snapshot) => {
       // console.log("docs size:",snapshot.size)
       setTotalItems(snapshot.size);
-      dispatch(inventoryActions.setTotalItems(snapshot.size))
+      dispatch(inventoryActions.setTotalItems(snapshot.size));
     });
-
   }, [inventoryItems]);
+
+  useEffect(() => {
+    getDownloadURL(userImages_StorageReference).then((url) => {
+      dispatch(authActions.setUserImageURL(url));
+    });
+  }, []);
 
   const categories = [
     { value: "all", name: "All" },
@@ -109,8 +121,6 @@ const Inventory = () => {
     { value: "desc", name: "Descending" },
   ];
 
-  
-
   const toggleQuickAdd = (event) => {
     event.preventDefault();
     setQuickAddIsActivated(!quickAddIsActivated);
@@ -118,7 +128,7 @@ const Inventory = () => {
 
   const toggleEdit = (event) => {
     event.preventDefault();
-    dispatch(inventoryActions.toggleEdit())
+    dispatch(inventoryActions.toggleEdit());
   };
 
   const toggleImport = (event) => {
@@ -297,7 +307,7 @@ const Inventory = () => {
               </span>
             </BtnExt>
           )}
-         
+
           {itemsSelectedList.length > 1 && (
             <BtnExt onClick={toggleBulkEdit} width="140px">
               <span>Bulk Edit</span>{" "}
@@ -362,7 +372,7 @@ const Inventory = () => {
           <span className="sku">SKU/Barcode</span>
           <span className="description">Description</span>
         </ColumnHeader>
-        <PaginatedList/>
+        <PaginatedList />
 
         <AddItemBtn>?</AddItemBtn>
       </Grid>
@@ -372,11 +382,7 @@ const Inventory = () => {
         <DeleteItemPrompt toggleDeletePrompt={toggleDeletePrompt} />
       )}
 
-      {importIsToggled && (
-        <Import
-          toggle={toggleImport}
-        />
-      )}
+      {importIsToggled && <Import toggle={toggleImport} />}
       {bulkEditIsActive && <BulkEditModal toggle={toggleBulkEdit} />}
       {exportIsToggled && <Export toggle={toggleExport} />}
       {editIsToggled && <EditItem toggle={toggleEdit} />}

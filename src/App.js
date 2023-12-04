@@ -53,6 +53,8 @@ function App() {
           sessionStorage.setItem("search Indexes", JSON.stringify(obj));
           setDocument(obj, "Users", user.uid, "SearchIndexes", "Init");
         });
+
+        
       } else {
         dispatch(authActions.setUserAuthState(false));
         navigate("/signin");

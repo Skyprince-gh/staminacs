@@ -4,7 +4,7 @@ import ReactDOM from "react-dom";
 import "animate.css";
 import { getAllDocuments, updateDocument } from "../../util/firebase-store";
 import { useSelector, useDispatch } from "react-redux";
-import { ArrowDropDown, ArrowDropUp } from "@mui/icons-material";
+import { ArrowDropDown, ArrowDropUp, SettingsOverscanTwoTone } from "@mui/icons-material";
 import BulkEditInput from "../Inputs/BulkEditInput";
 import BtnPrimary from "../Buttons/Buttons";
 import { writeBatch, doc } from "firebase/firestore";
@@ -21,6 +21,7 @@ const BulkEditModal = (props) => {
   );
   const [searchString, setSearchString] = useState("");
   const [filteredItems, setFilteredItems] = useState([]);
+  const [backup, setBackup] = useState([]);
   //this variable is responsible for tracking the visibility of all columns on the bulk edit view.
   const [columns, setColumns] = useState({
     all: false,
@@ -193,11 +194,17 @@ const BulkEditModal = (props) => {
   const handleModeChange = (event) => {
     const value = event.target.value;
 
-    if (value === "all") {
+    if (value === "all" && wasActivated) {
+      setItems(backup);
+      setFilteredItems(backup)
+    } else {
       getAllDocuments("Users", userID, "Inventory").then((data) => {
         setItems(data);
         setFilteredItems(data);
+        setBackup(data);
       });
+
+      setWasActivated(true);
     }
 
     if (value === "selected") {

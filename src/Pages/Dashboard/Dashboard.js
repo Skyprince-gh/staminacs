@@ -23,11 +23,11 @@ const Dashboard = () => {
     }, 3000);
   }, []);
 
-  useEffect(()=> {
-    getDownloadURL(userImages_StorageReference).then(url => {
-      dispatch(authActions.setUserImageURL(url))
-    })
-  }, [])
+  // useEffect(()=> {
+  //   getDownloadURL(userImages_StorageReference).then(url => {
+  //     dispatch(authActions.setUserImageURL(url))
+  //   })
+  // }, [])
 
   return (
     <Grid>

@@ -4,6 +4,7 @@ const initialState = {
   items: new Set(),
   tempFormData: {},
   itemsSelectedList: [],
+  selectMonitor: [],
   currentEdit: "",
   editIsToggled: false,
   selectAll: false,
@@ -76,7 +77,19 @@ const inventorySlice = createSlice({
       state.editIsToggled = !state.editIsToggled;
     },
     toggleSelectAll(state, action) {
-      state.selectAll = !state.selectAll;
+      const value = !state.selectAll;
+
+      if (value) {
+        state.itemsSelectedList = [...state.items].map((item) => {
+          return item.id;
+        });
+      }
+
+      if (value === false) {
+        state.itemsSelectedList = [];
+      }
+      
+      state.selectAll = value;
     },
     setCurrentEdit(state, action) {
       state.currentEdit = action.payload;

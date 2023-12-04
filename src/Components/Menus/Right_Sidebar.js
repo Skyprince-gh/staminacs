@@ -1,5 +1,5 @@
 import { Navigate, NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Fragment, useEffect, useState } from "react";
 import { getDocumentByID } from "../../util/firebase-store";
 import {
@@ -15,23 +15,32 @@ import {
 } from "@mui/icons-material";
 import styled from "styled-components";
 import QuickUserSettings from "./QuickUserSettings";
+import { actions as authActions } from "../../store/auth";
+import { storage } from "../../util/firebase-store";
+import { getDownloadURL,ref } from "firebase/storage";
 
 const RightSidebar = () => {
   const UserName = useSelector((state) => state.auth.userData.firstName);
   const [quickUserSettingsIsActive, setQuickUserSettingsIsActive] =
     useState(false);
+  const dispatch = useDispatch();
 
   const userImageURL = useSelector((state) => state.auth.userImageURL);
+  const userID = useSelector((state) => state.auth.userAuthCred.uid);
+  const userImages_StorageReference = ref(
+    storage,
+    `${userID}/images/userImage`
+  );
 
   const toggleSignOut = () => {
     setQuickUserSettingsIsActive(!quickUserSettingsIsActive);
   };
 
-  // useEffect(()=> {
-  //   getDownloadURL(userImages_StorageReference).then(url => {
-  //     setUserImageURL(url)
-  //   })
-  // }, [quickUserSettingsIsActive])
+  useEffect(() => {
+    getDownloadURL(userImages_StorageReference).then((url) => {
+      dispatch(authActions.setUserImageURL(url));
+    });
+  }, []);
 
   return (
     <Fragment>

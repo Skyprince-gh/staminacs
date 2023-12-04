@@ -18,9 +18,9 @@ const PaginatedList = () => {
   const categoryFilter = useSelector((state) => state.inventory.categoryFilter);
   const dispatch = useDispatch();
   // const [loadAmount, setLoadAmount] = useState(50);
-  const [currentLoadOffset, setCurrentLoadOffset] = useState(0); //offsets the load amount by increments of ten so animations could load faster
+  // const [currentLoadOffset, setCurrentLoadOffset] = useState(0); //offsets the load amount by increments of ten so animations could load faster
   // const [loadMoreIsVisible, setLoadMoreIsVisible] = useState(true);
-  const [loadingIconIsVisible, setLoadingIconIsVisible] = useState(true);
+  // const [loadingIconIsVisible, setLoadingIconIsVisible] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [numberOfPages, setNumberOfPages] = useState(0);
   const [buttonIndex, setButtonIndex] = useState(1);
@@ -29,44 +29,49 @@ const PaginatedList = () => {
   );
   const [itemsShowing, setItemsShowing] = useState([]);
   const [isInitial, setIsInitial] = useState(true); //this shows whether the component is an initial load or not
-  const deleteCounter = useSelector(state => state.inventory.deleteCounter)
-  const bulkEditCounter = useSelector(state => state.inventory.bulkEditCounter)
+  const deleteCounter = useSelector((state) => state.inventory.deleteCounter);
+  const bulkEditCounter = useSelector(
+    (state) => state.inventory.bulkEditCounter
+  );
+  const itemsSelectedList = useSelector(
+    (state) => state.inventory.itemsSelectedList
+  );
 
-
+  const [isInitialChange, setIsInitialChange] = useState(true);
   useEffect(() => {
     fetchIventoryItems(100).then((value) => {
-      changePage(1);
+      const loaded = value.slice(0, 10);
+      setItemsShowing(loaded);
     });
   }, []);
 
   useEffect(() => {}, [currentPage]);
-  
+
   useEffect(() => {
     changePage(currentPage)
-  }, [deleteCounter]);
+  }, [bulkEditCounter]);
 
   useEffect(() => {
-    changePage(currentPage + 1)
-  }, [bulkEditCounter])
-  
-
-  // const monitorButtonIndex = () => {};
-
-  
+    changePage(currentPage)
+  }, [orderPref, sortBy])
 
   const changePage = (pageNumber) => {
+    console.log("items selected:", itemsSelectedList);
     const startPage = (pageNumber - 1) * 10; // 10 is the number of items to show
     const endPage = startPage + 10;
-    const showing = items.slice(startPage, endPage);
+    // const showing = items.slice(startPage, endPage);
+
+    const showing = sort(cleanUp(filterBySearch(items)), sortBy, orderPref).slice(startPage, endPage);
+
     setItemsShowing(showing);
     setCurrentPage(pageNumber);
+    setIsInitialChange(false);
   };
 
   const goToNext = () => {
     changePage(currentPage + 1);
 
     if (isInitial) {
-      // loadMoreData(10);
       fetchIventoryItems(110).then((value) => {});
       setIsInitial(false);
     }
@@ -130,34 +135,8 @@ const PaginatedList = () => {
     const nOfPages = Math.floor(totalInventoryItems / 10) + 1;
     console.log("number of Pages", nOfPages, "/", totalInventoryItems);
     setNumberOfPages(nOfPages);
-    return ITEMS;
+    return [...ITEMS];
   };
-
-  // const loadMoreData = async (loadAmount) => {
-  //   console.log("more data being loaded");
-  //   const newPage = currentPage + 1;
-  //   const offset = (newPage - 1) * loadAmount;
-  //   const q = query(
-  //     collection(db, "Users", userID, "Inventory"),
-  //     orderBy("crated"),
-  //     limit(loadAmount),
-  //     offset
-  //   );
-  //   try {
-  //     const querySnapshot = await getDocs(q);
-  //     const fetchedData = [];
-  //     querySnapshot.forEach((doc) => {
-  //       const item = doc.data();
-  //       fetchedData.push(item);
-  //     });
-  //     console.log("loaded data:", fetchedData);
-  //     // setData((prevData) => [...prevData, ...fetchedData]);
-  //     dispatch(inventoryActions.updateItems([...items, ...fetchedData]));
-  //     console.log(fetchedData);
-  //   } catch (error) {
-  //     console.error("Error fetching more data:", error);
-  //   }
-  // };
 
   const filterBySearch = (items) => {
     const indexes = items.map((item) => {
@@ -208,12 +187,7 @@ const PaginatedList = () => {
               return item.category === categoryFilter ? true : false;
             }
           })
-          .map((item, index) => (
-            <Item
-              data={item}
-              key={item.id + index}
-            />
-          ))}
+          .map((item, index) => <Item data={item} key={item.id + index} />)}
 
       {/* {loadingIconIsVisible && (
         <div className="loading-icon">

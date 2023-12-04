@@ -21,8 +21,12 @@ const Modal = (props) => {
   const userName = useSelector((state) => state.auth.userData.firstName);
   const lastName = useSelector((state) => state.auth.userData.lastName);
   const businessName = useSelector((state) => state.auth.userData.businessName);
+  const userData = useSelector((state) => state.auth.userData);
   const navigate = useNavigate();
   const [closeIsActivated, setCloseIsActivated] = useState(false);
+  const [userNameIsActive, setUserNameIsActive] = useState(false);
+  const [storeNameIsActive, setStoreNameIsActive] = useState(false);
+
   const userImages_StorageReference = ref(
     storage,
     `${userID}/images/userImage`
@@ -51,6 +55,32 @@ const Modal = (props) => {
     setTimeout(() => {
       props.toggle();
     }, 700);
+  };
+
+  // const ChangeUserNameOnBlur = (event) => {
+  //   const data = event.target.value;
+  //   dispatch(authActions.setUserData({ ...userData, businessName: data }));
+  // };
+  // const ChangeUserNameOnKeyDown = (event) => {
+  //   const data = event.target.value;
+  //   dispatch(authActions.setUserData({ ...userData, businessName: data }));
+  // };
+
+  // const ChangeStoreNameOnBlur = (event) => {
+  //   const data = event.target.value;
+  //   dispatch(authActions.setUserData({ ...userData, businessName: data }));
+  // };
+  // const ChangeStoreNameOnKeyDown = (event) => {
+  //   const data = event.target.value;
+  //   dispatch(authActions.setUserData({ ...userData, businessName: data }));
+  // };
+
+  const toggleUserNameChange = () => {
+    setUserNameIsActive(!userNameIsActive);
+  };
+
+  const toggleStoreNameChange = () => {
+    setStoreNameIsActive(!storeNameIsActive);
   };
 
   return (
@@ -82,18 +112,16 @@ const Modal = (props) => {
         <div className="user-name">
           <h3>User Name</h3>
           <div className="content">
-            <span>
+            <span className="title">
               {userName} {lastName}
             </span>
-            {/* <RoundButton>
-              <Edit />
-            </RoundButton> */}
           </div>
         </div>
+
         <div className="store-name">
           <h3>Store Name</h3>
           <div className="content">
-            <span>{businessName}</span>
+            <span className="title">{businessName}</span>
           </div>
         </div>
 
@@ -200,6 +228,30 @@ const QuickModal = styled.div`
     flex-direction: column;
     align-items: center;
     margin-bottom: 10px;
+    /* border: solid green 1px; */
+    position: relative;
+
+    /* span.title {
+      width: fit-content;
+      padding: 0 20px;
+      border-radius: 10px;
+
+      &:hover {
+        border: solid 1px white;
+      }
+    }
+
+    span {
+      input {
+        outline: none;
+        padding-left: 20px;
+      }
+    }
+
+    .icon {
+      position: absolute;
+      right: 150px;
+    } */
   }
 
   .content {

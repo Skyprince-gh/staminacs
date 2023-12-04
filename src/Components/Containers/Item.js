@@ -5,9 +5,6 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { actions as inventoryActions } from "../../store/inventory";
 import Input from "../Inputs/Input";
-import { Timestamp } from "firebase/firestore";
-
-import { useNavigate } from "react-router-dom";
 
 const Item = (props) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -15,32 +12,51 @@ const Item = (props) => {
   const [isSelect, setIsSelect] = useState(false);
   const selectAll = useSelector((state) => state.inventory.selectAll);
   const inventoryItems = useSelector((state) => state.inventory.items);
-  const currentEdit = useSelector(state => state.inventory.currentEdit)
+  const itemsSelectedList = useSelector(
+    (state) => state.inventory.itemsSelectedList
+  );
+  const currentEdit = useSelector((state) => state.inventory.currentEdit);
   const currentExpansion = useSelector(
     (state) => state.inventory.currentExpansion
   );
   const editIsToggled = useSelector((state) => state.inventory.editIsToggled);
   const [itemData, setItemData] = useState(props.data);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-
   
 
   useEffect(() => {
-    handleCheckbox(selectAll);
+    generateColorImageUrl();
+  }, []);
+
+  useEffect(() => {
+    // handleCheckbox(selectAll);
     if (itemData.id === currentExpansion) {
       setIsExpanded(true);
     } else if (itemData.id !== currentExpansion) {
       setIsExpanded(false);
     }
-  }, [selectAll, currentExpansion, itemData]); 
+  }, [selectAll, currentExpansion, itemData]);
 
   useEffect(() => {
-     if(currentEdit.id === itemData.id){
-      setItemData(currentEdit)
-     }
-  }, [inventoryItems])
+    if (currentEdit.id === itemData.id) {
+      setItemData(currentEdit);
+    }
+  }, [inventoryItems]);
 
+  useEffect(() => {
+    if (selectAll === false) {
+      setIsSelect(false);
+    }
+  }, [selectAll]);
+
+  useEffect(() => {
+    itemsSelectedList.forEach((item) => {
+      if (itemData.id === item) {
+        setIsSelect(true);
+        console.log("match");
+      }
+    });
+  }, [selectAll]);
 
   const toggleExpand = (event) => {
     setIsExpanded(!isExpanded);
@@ -53,13 +69,47 @@ const Item = (props) => {
     } else {
       setShowExtra(false);
       dispatch(inventoryActions.setCurrentExpansion(""));
-    } 
+    }
   };
 
-  const handleCheckbox = (value) => {
-    setIsSelect(value);
+  const generateColorImageUrl = () => {
+    // List of visible light to dark hues of various colors
+    const colors = ["27BD79", "FBFF5E", "333333", "7EB3EB", "FB9CCE"];
 
-    if (value) {
+    // Select a random color from the list
+    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+
+    // Generate a URL for a 100x100 solid color image
+    const imageUrl = `https://placehold.co/400x400/${randomColor}/${randomColor}`;
+
+    console.log("imageURL: ", itemData.image);
+    if (itemData.image === "") {
+      setItemData({ ...itemData, image: imageUrl });
+    }
+
+    // setDefaultImageSource(imageUrl);
+  };
+
+  // const handleCheckbox = (value) => {
+  //   setIsSelect(value);
+
+  //   if (value) {
+  //     //add to the menu
+  //     dispatch(inventoryActions.addItemToSelectedList(itemData.id));
+  //     dispatch(inventoryActions.addItemToCurrentEdit(itemData.id));
+  //   } else if (value === false) {
+  //     //remove from the list.
+  //     dispatch(inventoryActions.removeItemFromSelectedList(itemData.id));
+  //     dispatch(inventoryActions.removeItemFromCurrentEdit());
+  //   }
+  // };
+
+  const toggleCheckbox = () => {
+    setIsSelect(!isSelect);
+
+    const value = !isSelect;
+
+    if (value === true) {
       //add to the menu
       dispatch(inventoryActions.addItemToSelectedList(itemData.id));
       dispatch(inventoryActions.addItemToCurrentEdit(itemData.id));
@@ -72,49 +122,9 @@ const Item = (props) => {
 
   const handleMoreInfo = (event) => {
     event.preventDefault();
-    dispatch(inventoryActions.addItemToCurrentEdit(itemData.id))
+    dispatch(inventoryActions.addItemToCurrentEdit(itemData.id));
     dispatch(inventoryActions.toggleEdit());
   };
-
-  // const handleTags = (strings) => {
-  //   const formData = { ...itemData };
-  //   formData["tags"] = strings;
-  //   formData["lastModified"] = Timestamp.fromDate(new Date());
-  //   setItemData(formData);
-  //   updateItemsList(formData);
-  // };
-
-  // const handleItemData = (event) => {
-  //   const formData = { ...itemData };
-  //   const name = event.target.name;
-  //   const value = event.target.value;
-  //   formData[name] = value;
-  //   formData["lastModified"] = Timestamp.fromDate(new Date());
-  //   setItemData({ ...formData });
-  //   updateItemsList(formData);
-  // };
-
-  const updateItemsList = (formData) => {
-    const items = inventoryItems.map((item) => {
-      if (item.id === formData.id) {
-        formData["updated"] = true;
-        return formData;
-      }
-      return item;
-    });
-
-    dispatch(inventoryActions.setChangesOccuredState(true));
-    dispatch(inventoryActions.updateItems(items));
-  };
-
-  // const handleFileSelect = (event) => {
-  //   // console.log(event.target.files[0]);
-  //   blobToBase64(event.target.files[0]).then((imgURL) => {
-  //     const formData = { ...itemData, image: imgURL };
-  //     setItemData(formData);
-  //     updateItemsList(formData);
-  //   });
-  // };
 
   return (
     <Grid
@@ -122,15 +132,23 @@ const Item = (props) => {
       // delay={props.animateDelay}
       className={`animate__animated animate__fadeInDown animate__faster`}
     >
+      {!isExpanded && <div className="trigger" onClick={toggleExpand}></div>}
       {!isExpanded && (
         <div className="main-info">
           <span className="select">
-            <Input
+            {/* <Input
               type="checkbox"
               name="isSelected"
               onChecked={(e) => handleCheckbox(e.target.checked)}
               value={isSelect}
-            />
+            /> */}
+            <SelectCircle
+              expanded={isExpanded}
+              className="circle"
+              onClick={toggleCheckbox}
+            >
+              {isSelect && <div className="inner"></div>}
+            </SelectCircle>
           </span>
           <span className="image">
             {!isExpanded && (
@@ -157,12 +175,19 @@ const Item = (props) => {
         <MoreInfo editMode={editIsToggled}>
           <div className="controls">
             <span className="select">
-              <Input
+              {/* <Input
                 type="checkbox"
                 name="isSelected"
                 onChecked={(e) => handleCheckbox(e.target.checked)}
                 value={isSelect}
-              />
+              /> */}
+              <SelectCircle
+                expanded={isExpanded}
+                className="circle"
+                onClick={toggleCheckbox}
+              >
+                {isSelect && <div className="inner"></div>}
+              </SelectCircle>
             </span>
             <div className="buttons">
               {isExpanded && (
@@ -265,7 +290,18 @@ const Grid = styled.div`
   border-top: solid black 1px;
   transform: ${(props) => (props.expanded ? "scaleX(1.05)" : "scaleX(1)")};
   animation-delay: ${(props) => props.delay + "ms"};
-  position: relative;
+
+  .trigger {
+    position: absolute;
+
+    z-index: 2;
+    width: 97%;
+    right: 0px;
+    height: 100%;
+    background: transparent;
+
+    cursor: ns-resize;
+  }
 
   button,
   input {
@@ -288,6 +324,10 @@ const Grid = styled.div`
 
     button {
       color: white;
+    }
+
+    .circle {
+      border-color: white;
     }
   }
 
@@ -358,6 +398,26 @@ const Grid = styled.div`
   }
 `;
 
+const SelectCircle = styled.div`
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  border: solid 1px
+    ${(props) =>
+      props.expanded ? "var(--primary-yellow)" : "var(--primary-black)"};
+  margin-left: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .inner {
+    width: 10px;
+    height: 10px;
+    border-radius: 7.5px;
+    background: var(--primary-yellow);
+  }
+`;
+
 const ProductImage = styled.img`
   width: 50px;
   height: 50px;
@@ -417,10 +477,10 @@ const MoreInfo = styled.section`
         height: 30px;
         padding: 5px 10px;
 
-        &:hover{
+        &:hover {
           color: white;
         }
-        &:active{
+        &:active {
           color: black;
         }
       }

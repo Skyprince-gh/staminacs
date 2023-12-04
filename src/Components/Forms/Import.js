@@ -292,7 +292,7 @@ const ImportModal = (props) => {
       batch.commit();
     });
 
-    const sliced = data.slice(0,20)
+    const sliced = data.slice(0,100)
     dispatch(inventoryActions.importItems(sliced))
   };
 
