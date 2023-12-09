@@ -7,6 +7,7 @@ import {
   List,
   Search,
   AppRegistration,
+  Refresh,
 } from "@mui/icons-material";
 import Input from "../../Components/Inputs/Input";
 import QuickAdd from "../../Components/Forms/QuickAdd";
@@ -64,6 +65,9 @@ const Inventory = () => {
 
   const storeName = useSelector((state) => state.auth.userData.businessName);
   const userID = useSelector((state) => state.auth.userAuthCred.uid);
+  const loadingIconIsVisible = useSelector(
+    (state) => state.inventory.loadingIaconIsVisible
+  );
   const userImages_StorageReference = ref(
     storage,
     `${userID}/images/userImage`
@@ -235,7 +239,7 @@ const Inventory = () => {
   };
 
   const handleKeyPress = (event) => {
-    console.log("key", event.key);
+    // console.log("key", event.key);
     if (event.key === "Enter") {
       fetchMultipleItems();
     }
@@ -372,6 +376,15 @@ const Inventory = () => {
           <span className="sku">SKU/Barcode</span>
           <span className="description">Description</span>
         </ColumnHeader>
+
+        {loadingIconIsVisible && (
+          <div className="loading-icon">
+            <span>
+              <Refresh />
+            </span>
+          </div>
+        )}
+
         <PaginatedList />
 
         <AddItemBtn>?</AddItemBtn>
@@ -399,6 +412,37 @@ const Grid = styled.div`
   color: black;
   h1 {
     user-select: text !important;
+  }
+
+  div.loading-icon {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto 0 auto;
+
+    span {
+      animation: spin 0.5s infinite linear;
+    }
+
+    position: absolute;
+    z-index: 50;
+    top: 50%;
+    transform: translate(-50%, -150px);
+    left: 50%;
+
+    svg {
+      width: 30px;
+      height: 30px;
+      color: var(--primary-grey-2);
+    }
+
+    @keyframes spin {
+      100% {
+        transform: rotate(360deg);
+      }
+    }
   }
 `;
 

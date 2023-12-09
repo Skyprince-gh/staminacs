@@ -20,23 +20,21 @@ import { actions as inventoryActions } from "../../store/inventory";
 import ReactDOM from "react-dom";
 // import { Ref } from "react";
 const EditItemModal = (props) => {
-
   const [currentStep, setCurrentStep] = useState(1);
   const user = useSelector((state) => state.auth.userAuthCred);
   const items = useSelector((state) => state.inventory.items);
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({});
   const categories = useSelector((state) => state.inventory.categories);
-  const selectedItem = useSelector(state => state.inventory.currentEdit)
+  const selectedItem = useSelector((state) => state.inventory.currentEdit);
 
-
-  useEffect(() => {    
+  useEffect(() => {
     const item = [...items].filter((itm) => itm.id === selectedItem);
     setFormData({ ...item[0] });
   }, []);
 
   const goToNext = () => {
-    //takes you to the next form   
+    //takes you to the next form
     setCurrentStep(currentStep + 1);
   };
 
@@ -57,6 +55,20 @@ const EditItemModal = (props) => {
     });
   };
 
+  //This function handles the drag and drop feature of the import modal.
+  const handleDrop = (event) => {
+    event.preventDefault();
+    console.log("image has been dropped");
+    blobToBase64(event.dataTransfer.files[0]).then((imgURL) => {
+      setFormData({ ...formData, image: imgURL });
+    });
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    // Add styling or visual feedback to indicate valid drop target
+  };
+
   const handleFormSubmit = (event) => {
     event.preventDefault();
 
@@ -64,15 +76,9 @@ const EditItemModal = (props) => {
     const data = {
       ...formData,
       lastModified: Timestamp.fromDate(new Date()),
-    }
+    };
     //get the user id from redux auth slice  .
-    updateDocument(
-      data,
-      "Users",
-      user.uid,
-      "Inventory",
-      formData.id
-    );
+    updateDocument(data, "Users", user.uid, "Inventory", formData.id);
 
     const obj = {};
     obj[`${formData.id}`] = {
@@ -82,7 +88,25 @@ const EditItemModal = (props) => {
       productCode: formData.productCode,
       description: formData.description,
     };
+
     updateDocument(obj, "Users", user.uid, "SearchIndexes", "Init");
+
+    const idxs = JSON.parse(sessionStorage.getItem("search Indexes"));
+
+    const newIndexList = idxs.map((index) => {
+      // console.log("index:", index);
+      if (index.id === formData.id) {
+        return {
+          name: formData.name,
+          altName: formData.altName,
+          id: formData.id,
+          productCode: formData.productCode,
+          description: formData.description,
+        };
+      } else return index;
+    });
+
+    sessionStorage.setItem("search Indexes", JSON.stringify(newIndexList));
 
     const newItems = [...items].map((itm) => {
       if (itm.id === formData.id) {
@@ -92,10 +116,8 @@ const EditItemModal = (props) => {
       }
     });
 
-    
-
     dispatch(inventoryActions.updateItems(newItems));
-    dispatch(inventoryActions.setCurrentEdit(data))
+    dispatch(inventoryActions.setCurrentEdit(data));
     backToInventory(event);
     return;
   };
@@ -259,8 +281,17 @@ const EditItemModal = (props) => {
           {currentStep === 2 && (
             <Fragment>
               <Hgrp width="100%">
-                <ImgField width="300px" height="300px">
-                  <Label htmlFor="photo">
+                <ImgField
+                  width="300px"
+                  height="300px"
+                  onDrop={handleDrop}
+                  onDragOver={handleDragOver}
+                >
+                  <Label
+                    htmlFor="photo"
+                    onDrop={handleDrop}
+                    onDragOver={handleDragOver}
+                  >
                     {formData.image === "" && <AddAPhoto />}
                     {formData.image.length > 3 && <img src={formData.image} />}
                     {true && (

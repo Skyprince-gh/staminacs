@@ -5,10 +5,10 @@ import "animate.css";
 
 const Login = () => {
   return (
-    <Grid>
-      <LeftSection>
+    <div className="flex w-screen h-screen overflow-hidden bg-white">
+      <div className="w-[50vw] flex flex-col justify-center items-center bg-white rounded-tr-[50px] absolute top-0 left-0 h-screen z-[5]">
         <SignInForm />
-      </LeftSection>
+      </div >
       <LogoContainer>
         <LogoImage src="/images/svg/logo.svg" alt="logo" />
       </LogoContainer>
@@ -25,50 +25,27 @@ const Login = () => {
           </p>
         </Banner>
       </RightSection>
-      <div className="extra-style">f</div>
-      <Footer>
+      
+      <div className="absolute bottom-0 left-0 w-[50vw] flex justify-center gap-12 z-10 h-24 items-center">
         <p>Terms of Use</p>
         <p>Privacy & Cookies</p>
-      </Footer>
-    </Grid>
+      </div>
+    </div>
   );
 };
 
 export default Login;
 
-const Grid = styled.div`
-  display: flex;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
+
+const LeftSection = styled.div`
   background: white;
-
-  .extra-style {
-    width: 50vw;
-    height: 100vh;
-    background: url("/images/login_background.jpeg") center center no-repeat;
-    background-size: calc(100% + 5vw);
-    position: absolute;
-    right: 0px;
-    bottom: 0px;
-    z-index: 0;
-    border-bottom-left-radius: 50px;
-    background-position: 90% 51%;
-  }
+  border-top-right-radius: 50px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 100vh;
+  z-index: 5;
 `;
-
-const Footer = styled.div`
-position: absolute;
-bottom: 0px;
-left: 0px;
-width: 50vw;
-display: flex; 
-justify-content: center;
-gap: 50px;
-z-index: 10;
-height: 100px;
-align-items: center;
-`
 
 const RightSection = styled.div`
   width: 55vw;
@@ -136,17 +113,3 @@ const Banner = styled.div`
   }
 `;
 
-const LeftSection = styled.div`
-  width: 50vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: white;
-  border-top-right-radius: 50px;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  height: 100vh;
-  z-index: 5;
-`;

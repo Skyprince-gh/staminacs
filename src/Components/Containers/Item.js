@@ -22,7 +22,6 @@ const Item = (props) => {
   const editIsToggled = useSelector((state) => state.inventory.editIsToggled);
   const [itemData, setItemData] = useState(props.data);
   const dispatch = useDispatch();
-  
 
   useEffect(() => {
     generateColorImageUrl();
@@ -82,7 +81,7 @@ const Item = (props) => {
     // Generate a URL for a 100x100 solid color image
     const imageUrl = `https://placehold.co/400x400/${randomColor}/${randomColor}`;
 
-    console.log("imageURL: ", itemData.image);
+    // console.log("imageURL: ", itemData.image);
     if (itemData.image === "") {
       setItemData({ ...itemData, image: imageUrl });
     }
@@ -331,6 +330,19 @@ const Grid = styled.div`
     }
   }
 
+  .circle {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .inner {
+      width: 10px;
+      height: 10px;
+    }
+  }
+
   &:hover + & {
     border-top: none;
   }
@@ -406,6 +418,7 @@ const SelectCircle = styled.div`
     ${(props) =>
       props.expanded ? "var(--primary-yellow)" : "var(--primary-black)"};
   margin-left: 10px;
+  margin-top: 20px;
   display: flex;
   justify-content: center;
   align-items: center;

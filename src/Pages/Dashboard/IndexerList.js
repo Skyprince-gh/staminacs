@@ -40,11 +40,14 @@ const IndexerList = (props) => {
 
   const fetchAndAddToItems = (obj) => {
     //fetches a single Item at a time
+    dispatch(inventoryActions.switchLoadingIcon(true))
     console.log("user:", userID)
     getDocumentByID("Users", userID, "Inventory", obj.id).then((docSnap) => {
       const docData = docSnap.data();
       console.log("document feteched from search:", docData);
       dispatch(inventoryActions.addItem(docData));
+      dispatch(inventoryActions.seBulkEditUpdateCounter());
+      dispatch(inventoryActions.switchLoadingIcon(false))
     });
 
     props.turnOff()

@@ -36,6 +36,7 @@ const initialState = {
   ], // make this settings related later on
   categoryFilter: "all",
   searchParams: "",
+  loadingIconIsVisible: true,
 };
 
 const inventorySlice = createSlice({
@@ -133,6 +134,9 @@ const inventorySlice = createSlice({
     setCurrentExpansion(state, action) {
       state.currentExpansion = action.payload;
     },
+    switchLoadingIcon(state,action){
+      state.loadingIconIsVisible = action.payload
+    }
   },
 });
 

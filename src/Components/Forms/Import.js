@@ -14,10 +14,7 @@ import { useSelector, useDispatch } from "react-redux";
 // import repackageCloverToStaminOnConfig from "../../util/repackageItemBasedOnCloverConfig";
 import { actions as inventoryActions } from "../../store/inventory";
 import { Convert_Dynamic_Files_To_Stamina as convertDynamicToStamina } from "../../util/convertDynamicToStamina";
-import {
-  writeBatch,
-  doc
-} from "firebase/firestore";
+import { writeBatch, doc } from "firebase/firestore";
 import { db } from "../../util/firebase-store";
 
 //This components renders the UI for importing CSV and XLSX files into stamina.
@@ -30,7 +27,7 @@ const ImportModal = (props) => {
   const [categories, setCategories] = useState({}); //stores all the data for categories in clover files
   const [taxRates, setTaxRates] = useState({}); //stores all the data for tax rates in clover files
   const [instructions, setInstructions] = useState({}); //store the instructions for clover files.
-  const [file, setFile] = useState(null)
+  const [file, setFile] = useState(null);
 
   const downloadTemplate = () => {
     //download template via fetch protocol;
@@ -126,8 +123,8 @@ const ImportModal = (props) => {
     console.log("template: ", value);
     setCurrentTemplate(value);
 
-    if(file){
-      ReadFiles(file, value)
+    if (file) {
+      ReadFiles(file, value);
     }
   };
 
@@ -160,7 +157,7 @@ const ImportModal = (props) => {
         console.log(org_sheets);
       });
     }
-  }
+  };
 
   //This function handles the drag and drop feature of the import modal.
   const handleDrop = (event) => {
@@ -170,13 +167,12 @@ const ImportModal = (props) => {
     setFile(event.dataTransfer.files[0]);
   };
 
-
   //When a file is selected using the choose file button this function handles it
   const handleFileSelect = (event) => {
     event.preventDefault();
     setFileName(event.target.files[0].name); //get the name of the file and store it in the fileName variable
-    setFile(event.target.files[0])
-    ReadFiles(event.target.files[0], currentTemplate)
+    setFile(event.target.files[0]);
+    ReadFiles(event.target.files[0], currentTemplate);
   };
 
   const ReadWorkbook = (file, func) => {
@@ -279,10 +275,27 @@ const ImportModal = (props) => {
   const Uploader = async (data, ...path) => {
     console.log(...path);
 
+    const obj = { "000": "" };
+
+    data.forEach((document) => {
+      obj[`${document.id}`] = {
+        name: document.name,
+        altName: document.altName,
+        id: document.id,
+        productCode: document.productCode,
+        description: document.description,
+      };
+    });
+
+    console.log("imported index list:", obj);
+    sessionStorage.setItem("search Indexes", JSON.stringify(obj));
+
     const splitVal = ArraySplitter(data, 300); //value returned after splitting the array.
     console.log("splitVal", splitVal);
+
     splitVal.forEach((segArr) => {
       const batch = writeBatch(db);
+
       segArr.forEach((data) => {
         const pathRef = doc(db, ...path, data.id);
         batch.set(pathRef, data);
@@ -292,8 +305,9 @@ const ImportModal = (props) => {
       batch.commit();
     });
 
-    const sliced = data.slice(0,100)
-    dispatch(inventoryActions.importItems(sliced))
+    const sliced = data.slice(0, 100);
+    dispatch(inventoryActions.importItems(sliced));
+    dispatch(inventoryActions.seBulkEditUpdateCounter());
   };
 
   const ArraySplitter = (arr, limit) => {

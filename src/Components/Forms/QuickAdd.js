@@ -31,6 +31,7 @@ const QuickAddModal = (props) => {
 
     formData.name = itemName;
     formData.price = itemPrice;
+    formData.quantity = itemQuantity;
 
     dispatch(inventoryActions.changeFormData({ ...formData }));
     setQuickAddIsExpanded(!quickAddIsExpanded);
@@ -42,6 +43,7 @@ const QuickAddModal = (props) => {
 
     formData.name = itemName;
     formData.price = itemPrice;
+    formData.quantity = itemQuantity;
 
     const data = {
       ...formData,
@@ -86,9 +88,9 @@ const QuickAddModal = (props) => {
               label="Quantity"
               width="20%"
               type="number"
-              value={itemPrice}
+              value={itemQuantity}
               onChange={(e) => {
-                setItemPrice(e.target.value);
+                setItemQuantity(e.target.value);
               }}
             />
           </Fields>

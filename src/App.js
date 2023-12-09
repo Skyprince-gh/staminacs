@@ -13,7 +13,7 @@ import {
   getDocumentByID,
   setDocument,
 } from "./util/firebase-store";
-
+import Homepage from "./Pages/Homepage";
 
 //This component is where it all begins. Contains the routes to the different pages
 //in the app.
@@ -53,24 +53,18 @@ function App() {
           sessionStorage.setItem("search Indexes", JSON.stringify(obj));
           setDocument(obj, "Users", user.uid, "SearchIndexes", "Init");
         });
-
-        
       } else {
         dispatch(authActions.setUserAuthState(false));
-        navigate("/signin");
+        // navigate("/signin");
       }
     });
   }, []);
-
-  
-
-
 
   return (
     <div className="App">
       <Routes>
         {isAuthenticated === false && (
-          <Route path="/" element={<Navigate to="/signin" exact />} />
+          <Route path="/" element={<Homepage />} exact />
         )}
         {isAuthenticated === false && (
           <Route path="/signin" element={<Login />} exact />

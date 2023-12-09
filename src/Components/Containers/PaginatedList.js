@@ -7,7 +7,7 @@ import { useState, useEffect, Fragment } from "react";
 import { collection, query, orderBy, getDocs, limit } from "firebase/firestore";
 import "animate.css";
 import sort from "deep-sort";
-import BulkEditInput from "../Inputs/BulkEditInput";
+import { Refresh, RefreshOutlined } from "@mui/icons-material";
 
 const PaginatedList = () => {
   const items = useSelector((state) => [...state.inventory.items]);
@@ -16,11 +16,8 @@ const PaginatedList = () => {
   const orderPref = useSelector((state) => state.inventory.orderPref);
   const searchParams = useSelector((state) => state.inventory.searchParams);
   const categoryFilter = useSelector((state) => state.inventory.categoryFilter);
+
   const dispatch = useDispatch();
-  // const [loadAmount, setLoadAmount] = useState(50);
-  // const [currentLoadOffset, setCurrentLoadOffset] = useState(0); //offsets the load amount by increments of ten so animations could load faster
-  // const [loadMoreIsVisible, setLoadMoreIsVisible] = useState(true);
-  // const [loadingIconIsVisible, setLoadingIconIsVisible] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [numberOfPages, setNumberOfPages] = useState(0);
   const [buttonIndex, setButtonIndex] = useState(1);
@@ -38,6 +35,8 @@ const PaginatedList = () => {
   );
 
   const [isInitialChange, setIsInitialChange] = useState(true);
+  const [nextIsActive, setNextIsActive] = useState(true);
+
   useEffect(() => {
     fetchIventoryItems(100).then((value) => {
       const loaded = value.slice(0, 10);
@@ -45,15 +44,20 @@ const PaginatedList = () => {
     });
   }, []);
 
-  useEffect(() => {}, [currentPage]);
+  // useEffect(() => {}, [currentPage]);
 
   useEffect(() => {
-    changePage(currentPage)
-  }, [bulkEditCounter]);
+    changePage(currentPage);
+  }, [orderPref, sortBy, searchParams]);
 
   useEffect(() => {
-    changePage(currentPage)
-  }, [orderPref, sortBy])
+    changePage(currentPage);
+    console.log("deleteCounter set");
+  }, [bulkEditCounter, deleteCounter]);
+
+  const toggleNextButton = (value) => {
+    setNextIsActive(value);
+  };
 
   const changePage = (pageNumber) => {
     console.log("items selected:", itemsSelectedList);
@@ -61,7 +65,11 @@ const PaginatedList = () => {
     const endPage = startPage + 10;
     // const showing = items.slice(startPage, endPage);
 
-    const showing = sort(cleanUp(filterBySearch(items)), sortBy, orderPref).slice(startPage, endPage);
+    const showing = sort(
+      cleanUp(filterBySearch(items)),
+      sortBy,
+      orderPref
+    ).slice(startPage, endPage);
 
     setItemsShowing(showing);
     setCurrentPage(pageNumber);
@@ -76,16 +84,19 @@ const PaginatedList = () => {
       setIsInitial(false);
     }
 
-    if (currentPage > 9) {
+    if (currentPage > 8) {
       increaseButtonIndex();
     }
 
     const surplus = items.length - currentPage * 10;
 
     if (surplus < 50) {
-      const loadAmount = 50 - surplus;
+      toggleNextButton(false);
+      const loadAmount = 50;
       const allAmount = items.length + loadAmount;
-      fetchIventoryItems(allAmount).then((value) => {});
+      fetchIventoryItems(allAmount).then((value) => {
+        toggleNextButton(true);
+      });
     }
   };
 
@@ -96,7 +107,7 @@ const PaginatedList = () => {
       changePage(currentPage - 1);
     }
 
-    if (currentPage < 9) {
+    if (buttonIndex - currentPage <= 7) {
       decreaseButtonIndex();
     }
   };
@@ -189,15 +200,9 @@ const PaginatedList = () => {
           })
           .map((item, index) => <Item data={item} key={item.id + index} />)}
 
-      {/* {loadingIconIsVisible && (
-        <div className="loading-icon">
-          <Refresh />
-        </div>
-      )} */}
-
       {items.length > 0 && (
         <Controls>
-          <button className="index" onClick={(e) => changePage(goToPrevious)}>
+          <button className="index" onClick={goToPrevious}>
             previous
           </button>
           <div className="mid">
@@ -215,9 +220,16 @@ const PaginatedList = () => {
               );
             })}
           </div>
-          <button className="index" onClick={goToNext}>
-            Next
-          </button>
+          {nextIsActive && (
+            <button className="index" onClick={goToNext}>
+              Next
+            </button>
+          )}
+          {!nextIsActive && (
+            <div className="">
+              <RefreshOutlined />
+            </div>
+          )}
         </Controls>
       )}
     </Container>
@@ -245,28 +257,6 @@ const Container = styled.section`
     margin-top: 50px;
     display: flex;
     justify-content: center;
-  }
-
-  div.loading-icon {
-    width: 50px;
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 20px auto 0 auto;
-    animation: spin 0.5s infinite linear;
-
-    svg {
-      width: 30px;
-      height: 30px;
-      color: var(--primary-grey-2);
-    }
-
-    @keyframes spin {
-      100% {
-        transform: rotate(360deg);
-      }
-    }
   }
 `;
 
@@ -324,5 +314,27 @@ const Controls = styled.div`
     /* border: solid green 1px; */
     justify-content: space-between;
     overflow: hidden;
+  }
+
+  div.loading-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto 0 auto;
+
+    animation: spin 0.5s infinite linear;
+    transform-origin: center center;
+
+    svg {
+      width: 30px;
+      height: 30px;
+      color: var(--primary-grey-2);
+    }
+
+    @keyframes spin {
+      100% {
+        transform: rotate(360deg);
+      }
+    }
   }
 `;

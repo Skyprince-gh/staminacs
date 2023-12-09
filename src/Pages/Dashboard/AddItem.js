@@ -13,12 +13,14 @@ import { useNavigate } from "react-router-dom";
 import { countries } from "../../util/countries";
 import generateArrayOfYears from "../../util/years";
 import { setDocument, updateDocument } from "../../util/firebase-store";
-import { useSelector } from "react-redux";
-import { Timestamp } from "firebase/firestore";
+import { useSelector, useDispatch } from "react-redux";
+import { Timestamp, disableNetwork } from "firebase/firestore";
 import blobToBase64 from "../../util/blobToBase64";
+import { actions as inventoryActions } from "../../store/inventory";
 // import { Ref } from "react";
 export const AddItem = (props) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
   const [currentStep, setCurrentStep] = useState(1);
   const user = useSelector((state) => state.auth.userAuthCred);
   const tempData = useSelector((state) => state.inventory.tempFormData);
@@ -36,8 +38,8 @@ export const AddItem = (props) => {
     setCurrentStep(currentStep - 1);
   };
 
-  const backToInventory = () => {
-    navigate("/dashboard/inventory");
+  const backToInventory = (event) => {
+    props.toggle(event);
   };
 
   const handleFileSelect = (event) => {
@@ -47,18 +49,33 @@ export const AddItem = (props) => {
     });
   };
 
+  //This function handles the drag and drop feature of the import modal.
+  const handleDrop = (event) => {
+    event.preventDefault();
+    console.log("image has been dropped");
+    blobToBase64(event.dataTransfer.files[0]).then((imgURL) => {
+      setFormData({ ...formData, image: imgURL });
+    });
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    // Add styling or visual feedback to indicate valid drop target
+  };
+
   const handleFormSubmit = (event) => {
     event.preventDefault();
 
-    console.log("form data:", formData);
+    // console.log("form data:", formData);
 
     //get the user id from redux auth slice  .
+    const data = {
+      ...formData,
+      created: Timestamp.fromDate(new Date()),
+      lastModified: Timestamp.fromDate(new Date()),
+    }
     setDocument(
-      {
-        ...formData,
-        created: Timestamp.fromDate(new Date()),
-        lastModified: Timestamp.fromDate(new Date()),
-      },
+      data,
       "Users",
       user.uid,
       "Inventory",
@@ -73,11 +90,28 @@ export const AddItem = (props) => {
       productCode: formData.productCode,
       description: formData.description,
     };
+
     updateDocument(obj, "Users", user.uid, "SearchIndexes", "Init");
 
-    backToInventory();
+    //add item to indexes locally.
+    const idxs = JSON.parse(sessionStorage.getItem("search Indexes"));
+    const newIdxs = [...idxs, {
+      name: formData.name,
+      altName: formData.altName,
+      id: formData.id,
+      productCode: formData.productCode,
+      description: formData.description,
+    }]
+    
+    sessionStorage.setItem("search Indexes",JSON.stringify(newIdxs))
+    
+    //add item to inventory locally.
+    dispatch(inventoryActions.addItem(data))
+    dispatch(inventoryActions.seBulkEditUpdateCounter())
+    backToInventory(event);
     return;
   };
+
 
   const handleData = (event) => {
     const data = formData;
@@ -158,7 +192,7 @@ export const AddItem = (props) => {
                 label="Pricing Type*"
                 name="pricingType"
                 type="select"
-                options={["Variable", "Fixed", "Per Unit"]}
+                options={["Variable", "Fixed", "Per Unit", "Per Pound"]}
                 width="15%"
                 onChange={handleData}
                 // defaultValue="Variable"
@@ -234,11 +268,21 @@ export const AddItem = (props) => {
             </Hgrp>
           </Fragment>
         )}
-        
+
         {currentStep > 1 && (
           <Hgrp width="100%">
-            <ImgField width="300px" height="300px">
-              <Label htmlFor="photo">
+            <ImgField
+              className="imgField"
+              width="300px"
+              height="300px"
+              onDrop={handleDrop}
+              onDragOver={handleDragOver}
+            >
+              <Label
+                htmlFor="photo"
+                onDrop={handleDrop}
+                onDragOver={handleDragOver}
+              >
                 {formData.image === "" && <AddAPhoto />}
                 {formData.image.length > 3 && <img src={formData.image} />}
                 {true && (
@@ -395,7 +439,7 @@ const ImgField = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  /* background: red; */
+  background: red;
   width: ${(props) => props.width || "100%"};
   height: ${(props) => props.height || "100%"};
   border-radius: 25px;
@@ -431,7 +475,7 @@ const Footer = styled.section`
   z-index: 1;
   display: flex;
   justify-content: flex-end;
-  /* border: solid red; */
+
   align-items: center;
   gap: 30px;
 `;

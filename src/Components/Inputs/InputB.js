@@ -12,6 +12,13 @@ const InputB = (props) => {
     props.onUpdate(strings);
   };
 
+  const toggleListOnClick = (event) => {
+    if(!event.target.classList.contains("list")){
+      setListIsActive(false);
+      props.onUpdate(strings);
+    }
+  };
+
   const addString = (event) => {
     event.preventDefault();
     if (stringField.current.value.trim().length > 0) {
@@ -78,7 +85,7 @@ const InputB = (props) => {
         )}
 
         {props.type === "list" && (
-          <List isActive={listIsActive}>
+          <List isActive={listIsActive} className="list">
             <Items>
               {!listIsActive && (
                 <div className="strings">
@@ -88,7 +95,7 @@ const InputB = (props) => {
                 </div>
               )}
               {listIsActive && (
-                <ul onMouseLeave={toggleList}>
+                <ul onMouseLeave={toggleList} >
                   {strings.map((string, index) => {
                     return (
                       <li key={string + index}>

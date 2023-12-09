@@ -250,6 +250,7 @@ const BulkEditModal = (props) => {
 
       //do a batch update
       const batch = writeBatch(db);
+      
       allEntries.forEach((data) => {
         const path = ["Users", userID, "Inventory"];
         const pathRef = doc(db, ...path, data.id);
