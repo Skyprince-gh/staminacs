@@ -4,7 +4,11 @@ import ReactDOM from "react-dom";
 import "animate.css";
 import { getAllDocuments, updateDocument } from "../../util/firebase-store";
 import { useSelector, useDispatch } from "react-redux";
-import { ArrowDropDown, ArrowDropUp, SettingsOverscanTwoTone } from "@mui/icons-material";
+import {
+  ArrowDropDown,
+  ArrowDropUp,
+  SettingsOverscanTwoTone,
+} from "@mui/icons-material";
 import BulkEditInput from "../Inputs/BulkEditInput";
 import BtnPrimary from "../Buttons/Buttons";
 import { writeBatch, doc } from "firebase/firestore";
@@ -196,7 +200,7 @@ const BulkEditModal = (props) => {
 
     if (value === "all" && wasActivated) {
       setItems(backup);
-      setFilteredItems(backup)
+      setFilteredItems(backup);
     } else {
       getAllDocuments("Users", userID, "Inventory").then((data) => {
         setItems(data);
@@ -250,7 +254,7 @@ const BulkEditModal = (props) => {
 
       //do a batch update
       const batch = writeBatch(db);
-      
+
       allEntries.forEach((data) => {
         const path = ["Users", userID, "Inventory"];
         const pathRef = doc(db, ...path, data.id);
@@ -780,12 +784,43 @@ const Modal = styled.div`
   z-index: 2;
   position: relative;
 
+  @media (max-width: 1200px) {
+    width: 90%;
+  }
+
+  @media (max-width: 900px) {
+    width: 98%;
+    height: 80%;
+
+    .mid {
+      position: absolute;
+      top: 50px;
+      width: 100%;
+      flex-wrap: wrap;
+      border: solid blue 2px;
+      margin-left: 0px;
+    }
+
+    .table {
+      margin-top: 50px;
+      height: 60%;
+    }
+  }
+
+  @media (max-width: 570px) {
+    .table {
+      height: 70%;
+      margin-top: 100px;
+    }
+  }
+
   .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: solid 1px var(--primary-black);
     padding: 0px 20px 20px 20px;
+    position: relative;
 
     h1 {
       padding: 0 20px;
@@ -872,11 +907,22 @@ const Modal = styled.div`
           }
         }
       }
+
+      @media (max-width: 900px) {
+        position: absolute;
+        top: 50px;
+        width: 100%;
+        flex-wrap: wrap;
+        border: solid blue 2px;
+        margin-left: 0px;
+      }
     }
   }
 
   .table {
     overflow: scroll;
+    height: 70%;
+    /* border: solid brown 2px; */
 
     table {
       border-collapse: collapse;
@@ -902,11 +948,24 @@ const Modal = styled.div`
         }
       }
     }
+
+    @media (max-width: 900px) {
+      .table {
+        margin-top: 50px;
+        height: calc(80% - 50px);
+        margin-bottom: 20px;
+      }
+    }
   }
 
   .buttons {
     position: absolute;
     bottom: 10px;
     right: 20px;
+
+    @media (max-width: 900px) {
+      bottom: 5px;
+    }
+    
   }
 `;

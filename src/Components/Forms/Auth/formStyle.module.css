@@ -1,16 +1,26 @@
-.grid{
+.grid {
   display: flex;
   background: var(--primary-black);
   border-radius: 10px;
   flex-direction: column;
   align-items: center;
   padding: 10px 20px;
-  width: 500px
+  width: 500px;
+
+
+}
+
+@media (max-width: 1024px) {
+  .grid {
+    width: 97%;
+    height: clamp(250px, 40%, 75vh);
+  }
 }
 
 .grid>h2 {
-  width:100%;
-  height: 20%;;
+  width: 100%;
+  height: 20%;
+  ;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -22,34 +32,38 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  width: 100%
+  width: 100%;
+  /* overflow:scroll; */
 }
-.textInput{
+
+.textInput {
   width: 90%;
-  margin: 10px 0px; 
+  margin: 10px 0px;
   height: 40px;
   border-radius: 10px;
   border: none;
-  background: rgba(24,24,24,0.4);
+  background: rgba(24, 24, 24, 0.4);
   padding-left: 20px;
-  outline:none;
+  outline: none;
   user-select: none;
   font-weight: lighter;
   color: white;
 }
-::placeholder{
+
+::placeholder {
   color: white;
 }
 
-.links{
+.links {
   display: flex;
   width: 100%;
   font-size: 14px;
   justify-content: space-between;
   color: white;
-  margin: 20px 0px;  
+  margin: 20px 0px;
 }
-.left{
+
+.left {
   overflow: visible;
 }
 
@@ -63,27 +77,32 @@
   align-items: center;
 }
 
-.left p:hover{
+.left p:hover {
   color: var(--primary-yellow)
 }
-.left p:active{
+
+.left p:active {
   color: black
 }
+
 .left a {
   height: 100%;
 }
-.left a:hover{
+
+.left a:hover {
   color: var(--primary-yellow)
 }
-.left a:active{
+
+.left a:active {
   color: black
 }
 
-.rigth,.left{
+.rigth,
+.left {
   width: 50%;
 }
 
-.submit{
+.submit {
   height: 40px;
   width: 100px;
   border-radius: 20px;
@@ -92,19 +111,19 @@
   color: black;
 }
 
-.submit:hover{
- border: solid 2px var(--primary-yellow);
- background: transparent;
- color: white;
+.submit:hover {
+  border: solid 2px var(--primary-yellow);
+  background: transparent;
+  color: white;
 }
 
-.submit:active{
+.submit:active {
   color: black;
   background: var(--primary-yellow);
   font-weight: bold;
 }
 
-.hasNoAccount{
+.hasNoAccount {
   height: 20%;
   width: 100%;
   margin-bottom: 20px;
@@ -117,25 +136,24 @@
   color: white;
 }
 
-.hasNoAccount a:hover{
+.hasNoAccount a:hover {
   color: rgba(255, 183, 0)
 }
 
-.hasNoAccount a:active{
+.hasNoAccount a:active {
   color: black;
 }
 
-.autoWidth{
-  width: auto ;
+.autoWidth {
+  width: auto;
 }
 
-a{
+a {
   text-decoration: none;
   color: white;
 }
 
-.backButton{
+.backButton {
   display: flex;
   align-items: center;
 }
-

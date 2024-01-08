@@ -377,13 +377,24 @@ const ImportModal = (props) => {
           </p> */}
           </div>
           <div id="right">
-            <Input
-              label="Template Type"
-              options={templateOptions}
-              type="select"
-              width={300}
-              onChange={handleTemplateChange}
-            />
+            <div className="first">
+              <Input
+                label="Template Type"
+                options={templateOptions}
+                type="select"
+                width={300}
+                onChange={handleTemplateChange}
+              />
+            </div>
+            <div className="second">
+              <Input
+                label="Template Type"
+                options={templateOptions}
+                type="select"
+                width={200}
+                onChange={handleTemplateChange}
+              />
+            </div>
 
             {currentTemplate === "clover" && (
               <div className="options">
@@ -670,6 +681,20 @@ const Grid = styled.form`
   position: relative;
   z-index: 2;
 
+  @media (max-width: 1600px) {
+    width: 70%;
+  }
+  @media (max-width: 1200px) {
+    width: 80%;
+  }
+  @media (max-width: 1000px) {
+    width: 90%;
+  }
+  @media (max-width: 800px) {
+    width: calc(100% - 20px);
+    height: 80%;
+  }
+
   h3 {
     margin: 20px 0 5px 0px;
     width: fit-content;
@@ -690,10 +715,37 @@ const Grid = styled.form`
     justify-content: space-between;
     height: calc(100% - 15vh);
 
+    @media (max-width: 800px) {
+      flex-direction: column;
+    }
+
     #right {
       width: 40%;
       display: flex;
       flex-direction: column;
+
+      .second {
+        display: none;
+      }
+
+      @media (max-width: 1200px) {
+        width: 60%;
+      }
+      @media (max-width: 800px) {
+        width: 90%;
+        /* align-items: center; */
+
+        .second {
+          display: block;
+        }
+
+        .first {
+          display: none;
+        }
+      }
+      @media (max-width: 600px) {
+        width: 100%;
+      }
 
       .options {
         width: 70%;
@@ -705,6 +757,10 @@ const Grid = styled.form`
         box-shadow: inset var(--shadow-color2) 1px 5px 15px;
         border: solid black 0.5px;
         border-radius: 5px;
+
+        @media (max-width: 800px) {
+          width: calc(100% - 20px);
+        }
 
         .clover,
         .dynamic {
@@ -740,6 +796,10 @@ const Grid = styled.form`
       display: flex;
       align-items: center;
 
+      @media (max-width: 800px) {
+        width: 90%;
+      }
+
       p.extra {
         width: 100%;
 
@@ -761,6 +821,16 @@ const Grid = styled.form`
         align-items: center;
         margin-bottom: 4rem;
         justify-content: center;
+
+        @media (max-width: 1200px) {
+          width: 200px;
+          height: 200px;
+        }
+
+        @media (max-width: 800px) {
+          width: 400px;
+          height: 200px;
+        }
 
         &:hover {
           background: var(--primary-bkg-fade);

@@ -63,9 +63,11 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        {isAuthenticated === false && (
+        {/* {isAuthenticated === false && (
           <Route path="/" element={<Homepage />} exact />
-        )}
+        )} */}
+
+        <Route path="/" element={<Homepage />} exact />
         {isAuthenticated === false && (
           <Route path="/signin" element={<Login />} exact />
         )}

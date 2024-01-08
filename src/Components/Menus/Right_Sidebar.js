@@ -12,17 +12,21 @@ import {
   ChatBubbleOutline,
   Settings,
   CreditCard,
+  ArrowUpward,
+  ArrowUpwardOutlined,
+  ExpandLess,
 } from "@mui/icons-material";
 import styled from "styled-components";
 import QuickUserSettings from "./QuickUserSettings";
 import { actions as authActions } from "../../store/auth";
 import { storage } from "../../util/firebase-store";
-import { getDownloadURL,ref } from "firebase/storage";
+import { getDownloadURL, ref } from "firebase/storage";
 
 const RightSidebar = () => {
   const UserName = useSelector((state) => state.auth.userData.firstName);
   const [quickUserSettingsIsActive, setQuickUserSettingsIsActive] =
     useState(false);
+  const [bottomMenuIsActive, setBottomMenuIsActive] = useState(false);
   const dispatch = useDispatch();
 
   const userImageURL = useSelector((state) => state.auth.userImageURL);
@@ -34,6 +38,15 @@ const RightSidebar = () => {
 
   const toggleSignOut = () => {
     setQuickUserSettingsIsActive(!quickUserSettingsIsActive);
+  };
+
+  const triggerBottomMenu = () => {
+    setBottomMenuIsActive(!bottomMenuIsActive);
+  };
+  const toggleBottomMenu = () => {
+    if (bottomMenuIsActive) {
+      setBottomMenuIsActive(!bottomMenuIsActive);
+    }
   };
 
   useEffect(() => {
@@ -178,6 +191,128 @@ const RightSidebar = () => {
           )}
         </RSideBar>
       )}
+
+      {!quickUserSettingsIsActive && (
+        <BottomMenu toggled={bottomMenuIsActive}>
+          <Fragment>
+            <div className="pullMenu" onClick={triggerBottomMenu}>
+              <ExpandLess />
+            </div>
+            <div className="menu">
+              <ul>
+                <li>
+                  <NavLink
+                    className={({ isActive }) =>
+                      isActive ? "isActiveLink" : ""
+                    }
+                    to="/dashboard/home"
+                    onClick={toggleBottomMenu}
+                  >
+                    <HomeOutlined />
+                    <span>Home</span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    className={({ isActive }) =>
+                      isActive ? "isActiveLink" : ""
+                    }
+                    to="/dashboard/inventory"
+                    onClick={toggleBottomMenu}
+                  >
+                    <Inventory2Outlined />
+                    <span>Inventory</span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    className={({ isActive }) =>
+                      isActive ? "isActiveLink" : ""
+                    }
+                    to="/dashboard/tasks"
+                    onClick={toggleBottomMenu}
+                  >
+                    <ContentPasteOutlined />
+                    <span>Tasks</span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    className={({ isActive }) =>
+                      isActive ? "isActiveLink" : ""
+                    }
+                    to="/dashboard/history"
+                    onClick={toggleBottomMenu}
+                  >
+                    <AccessTime />
+                    <span>History</span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    className={({ isActive }) =>
+                      isActive ? "isActiveLink" : ""
+                    }
+                    to="/dashboard/updates"
+                    onClick={toggleBottomMenu}
+                  >
+                    <NotificationsOutlined />
+                    <span>Updates</span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    className={({ isActive }) =>
+                      isActive ? "isActiveLink" : ""
+                    }
+                    to="/dashboard/invoice"
+                    onClick={toggleBottomMenu}
+                  >
+                    <ReceiptOutlined />
+                    <span>Invoice</span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    className={({ isActive }) =>
+                      isActive ? "isActiveLink" : ""
+                    }
+                    to="/dashboard/chat"
+                    onClick={toggleBottomMenu}
+                  >
+                    <ChatBubbleOutline />
+                    <span>Chat</span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    className={({ isActive }) =>
+                      isActive ? "isActiveLink" : ""
+                    }
+                    to="/dashboard/billing"
+                    onClick={toggleBottomMenu}
+                  >
+                    <CreditCard />
+                    <span>Billing</span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    className={({ isActive }) =>
+                      isActive ? "isActiveLink" : ""
+                    }
+                    to="/dashboard/settings"
+                    onClick={toggleBottomMenu}
+                  >
+                    <Settings />
+                    <span>Settings</span>
+                  </NavLink>
+                </li>
+              </ul>
+            </div>
+          </Fragment>
+        </BottomMenu>
+      )}
     </Fragment>
   );
 };
@@ -196,7 +331,11 @@ const RSideBar = styled.nav`
   flex-direction: column;
   justify-content: flex-start;
   z-index: 3;
-  transition: 0.5s;
+  transition: 0.2s;
+
+  /* **************************************************************** */
+  /* normal styles */
+  /* ************************************************************** */
 
   div.user-info {
     position: static;
@@ -233,6 +372,177 @@ const RSideBar = styled.nav`
   .extraMenu {
     position: absolute;
     bottom: 20px;
+  }
+
+  /* ************************************************* */
+  /* Media queries */
+  /* ************************************************* */
+  @media (max-width: 1600px) {
+    width: 70px;
+
+    div.user-info {
+      height: 60px;
+      h4,
+      p {
+        display: none;
+      }
+
+      img {
+        width: 50px;
+        height: 50px;
+      }
+    }
+
+    div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      margin-top: 3rem;
+      /* position: relative; */
+
+      ul {
+        list-style: none;
+        width: 100%;
+
+        li a {
+          height: 3rem;
+          display: flex;
+          align-items: center;
+          /* border: solid green 1px; */
+          justify-items: center;
+
+          span {
+            display: none;
+            border: solid yellow 2px;
+          }
+
+          svg {
+            width: 25px;
+            height: 25px;
+          }
+        }
+      }
+    }
+
+    .extraMenu {
+      position: absolute;
+      bottom: 2rem;
+    }
+  }
+
+  @media (max-width: 600px) {
+    display: none;
+  }
+`;
+
+const BottomMenu = styled.nav`
+  width: 100vw;
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  height: ${(props) => (props.toggled ? "100vh" : "70px")};
+  background: var(--primary-black);
+  display: flex;
+  flex-direction: ${(props) => (props.toggled ? "column" : "row")};
+  justify-content: space-between;
+  z-index: 3;
+  transition: 0.2s;
+
+  div.menu {
+    width: 100%;
+  }
+
+  ul {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 0px 20px;
+    list-style-type: none;
+
+    span {
+      display: none;
+    }
+
+    svg {
+      width: 25px;
+      height: 25px;
+    }
+  }
+
+  @media (min-width: 601px) {
+    display: none;
+  }
+
+  @media (max-width: 601px) {
+    ul {
+      display: flex;
+      flex-direction: ${(props) => (props.toggled ? "column" : "")};
+      justify-content: ${(props) => (props.toggled ? "flex-start" : "")};
+      height: ${(props) => (props.toggled ? "100vh" : "100%")};
+      margin-top: ${(props) => (props.toggled ? "5rem" : "")};
+
+      li {
+        justify-content: space-between;
+        width: ${(props) => (props.toggled ? " 100%" : "")};
+
+        a {
+          display: ${(props) => (props.toggled ? "flex" : "")};
+          gap: ${(props) => (props.toggled ? "30px" : "")};
+          font-size: ${(props) => (props.toggled ? "24px" : "")};
+        }
+      }
+
+      span {
+        display: ${(props) => (props.toggled ? "block" : "")};
+        justify-self: center;
+      }
+
+      svg {
+        width: ${(props) => (props.toggled ? "40px" : "")};
+        height: ${(props) => (props.toggled ? "40px" : "")};
+      }
+    }
+  }
+
+  @media (max-width: 500px) {
+    li:nth-child(4),
+    li:nth-child(5) {
+      display: ${(props) => (props.toggled ? "block" : "none")};
+    }
+  }
+
+  @media (max-width: 400px) {
+    li:nth-child(6),
+    li:nth-child(7) {
+      display: ${(props) => (props.toggled ? "block" : "none")};
+    }
+  }
+
+  @media (max-width: 300px) {
+    li:nth-child(3),
+    li:nth-child(8) {
+      display: ${(props) => (props.toggled ? "block" : "none")};
+    }
+  }
+
+  .pullMenu {
+    width: 100px;
+    height: 30px;
+    display: flex;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    background: var(--primary-black);
+    bottom: ${(props) => (props.toggled ? "" : "60px")};
+    top: ${(props) => (props.toggled ? "0px" : "")};
+    border-top: solid var(--primary-yellow) 1px;
+    left: 50%;
+    transform: translateX(-50%) ${(props) => (props.toggled ? "scale(-1)" : "")};
+    border-radius: 50px 50px 0 0;
+    font-size: 25px;
   }
 `;
 

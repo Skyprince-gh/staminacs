@@ -51,7 +51,6 @@ const Finish = (props) => {
     }
   };
 
-
   const previousForm = (event) => {
     //trigger the external functions to switch to the previous form and then push all the data to the auth object outside of this component
     props.goToPrev();
@@ -59,9 +58,8 @@ const Finish = (props) => {
 
   const finishSignup = (event) => {
     props.handleFormData({
-      isActiveTier
-    })
-
+      isActiveTier,
+    });
   };
 
   return (
@@ -75,7 +73,9 @@ const Finish = (props) => {
           isActive={isActiveTier.tier1}
           // clicked={finishSignup}
         >
-          <button className={style.submit}  onClick={finishSignup}>Free</button>
+          <button className={style.submit} onClick={finishSignup}>
+            Free
+          </button>
         </Tier>
         {/* <Tier
           tier={Tiers.tier2}
@@ -127,6 +127,7 @@ const Grid = styled.div`
     width: 100%;
     color: white;
     padding-top: 20px;
+    color: black;
   }
 
   h3 {
@@ -134,7 +135,13 @@ const Grid = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    color: white;
+    color: black;
+  }
+  @media (max-width: 1024px) {
+    h2,
+    h3 {
+      color: white;
+    }
   }
 `;
 
@@ -152,7 +159,8 @@ const Footer = styled.div`
   display: flex;
   align-items: center;
   padding: 0px 50px;
-  justify-content: space-between;
+  justify-content: center;
+  /* border: solid green 2px; */
 `;
 
 const BackButton = styled.div`
@@ -162,6 +170,11 @@ const BackButton = styled.div`
   align-items: center;
   color: white;
   font-size: small;
+  color: var(--primary-black);
+
+  @media (max-width: 1024px) {
+    color: white;
+  }
 `;
 
 const Signup = styled.button``;

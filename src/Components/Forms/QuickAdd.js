@@ -63,36 +63,42 @@ const QuickAddModal = (props) => {
           <Close onClick={props.toggle}>X</Close>
           <h3>Add Item</h3>
           <Fields>
-            <InputB
-              name="name"
-              label="Item Name*"
-              width="50%"
-              type="text"
-              value={itemName}
-              onChange={(e) => {
-                setItemName(e.target.value);
-              }}
-            />
-            <InputB
-              name="price"
-              label="Price"
-              width="20%"
-              type="number"
-              value={itemPrice}
-              onChange={(e) => {
-                setItemPrice(e.target.value);
-              }}
-            />
-            <InputB
-              name="quantity"
-              label="Quantity"
-              width="20%"
-              type="number"
-              value={itemQuantity}
-              onChange={(e) => {
-                setItemQuantity(e.target.value);
-              }}
-            />
+            <div className="inputSpace">
+              <InputB
+                name="name"
+                label="Item Name*"
+                width="100%"
+                type="text"
+                value={itemName}
+                onChange={(e) => {
+                  setItemName(e.target.value);
+                }}
+              />
+            </div>
+            <div className="inputSpace">
+              <InputB
+                name="price"
+                label="Price"
+                width="100%"
+                type="number"
+                value={itemPrice}
+                onChange={(e) => {
+                  setItemPrice(e.target.value);
+                }}
+              />
+            </div>
+            <div className="inputSpace">
+              <InputB
+                name="quantity"
+                label="Quantity"
+                width="100%"
+                type="number"
+                value={itemQuantity}
+                onChange={(e) => {
+                  setItemQuantity(e.target.value);
+                }}
+              />
+            </div>
           </Fields>
           <ButtonsGrp>
             {itemName.length > 0 && itemPrice > 0 && (
@@ -162,6 +168,21 @@ const Grid = styled.form`
     width: 100%;
     padding-left: 5%;
   }
+
+  @media (max-width: 1200px) {
+    h3{
+      font-size: 16px;
+    }
+  }
+  @media (max-width: 900px) {
+    width: 80%;
+  }
+  @media (max-width: 600px) {
+    width: 90%;
+  }
+  @media (max-width: 500px) {
+    height: 500px;
+  }
 `;
 
 const Close = styled.button`
@@ -191,6 +212,23 @@ const Fields = styled.div`
   justify-content: space-around;
   gap: 20px;
   margin: 0 auto;
+
+  div.inputSpace:nth-child(1){
+    width: 50%;
+  }
+  div.inputSpace:nth-child(2){
+    width: 20%;
+  }
+  div.inputSpace:nth-child(3){
+    width: 20%;
+  }
+
+  @media (max-width: 500px) {
+    flex-direction: column;
+    div.inputSpace:nth-child(1), div.inputSpace:nth-child(2), div.inputSpace:nth-child(3){
+      width: 100%;
+    }
+  }
 `;
 const ButtonsGrp = styled.div`
   display: flex;

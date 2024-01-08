@@ -19,13 +19,13 @@ const SignIn = () => {
   //   setUserName({ ...userName, value: event.target.value });
   // };
 
-  const handleUserNameValidation = (event) => {
-    if (regex.userName.test(event.target.value)) {
-      setUserName({ ...userName, isInvalid: false });
-    } else {
-      setUserName({ ...userName, isInvalid: true });
-    }
-  };
+  // const handleUserNameValidation = (event) => {
+  //   if (regex.userName.test(event.target.value)) {
+  //     setUserName({ ...userName, isInvalid: false });
+  //   } else {
+  //     setUserName({ ...userName, isInvalid: true });
+  //   }
+  // };
 
   const handleEmail = (event) => {
     setEmail({ ...email, value: event.target.value });
@@ -61,7 +61,7 @@ const SignIn = () => {
     }
 
     setFormIsInvalid(false);
-    console.log("email:", email.value, "password:", password.value);
+    // console.log("email:", email.value, "password:", password.value);
     signInEmailAndPassword(email.value.trim(), password.value.trim());
     
   };

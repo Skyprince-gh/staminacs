@@ -8,6 +8,7 @@ import {
   Search,
   AppRegistration,
   Refresh,
+  Filter,
 } from "@mui/icons-material";
 import Input from "../../Components/Inputs/Input";
 import QuickAdd from "../../Components/Forms/QuickAdd";
@@ -74,26 +75,37 @@ const Inventory = () => {
   );
 
   useEffect(() => {
-    getDocumentByID("Users", userID, "SearchIndexes", "Init").then(
-      (docSnap) => {
-        console.log("hello fetching indexes: ");
-        const indexes = Object.values(docSnap.data());
-        sessionStorage.setItem("search Indexes", JSON.stringify(indexes));
-      }
-    );
+    try {
+      getDocumentByID("Users", userID, "SearchIndexes", "Init").then(
+        (docSnap) => {
+          console.log("hello fetching indexes: ");
+          const indexes = Object.values(docSnap.data());
+          sessionStorage.setItem("search Indexes", JSON.stringify(indexes));
+        }
+      );
+    } catch (err) {
+      sessionStorage.setItem("search Indexes", JSON.stringify(""));
+    }
 
     dispatch(inventoryActions.setSearchParams(""));
   }, []);
 
   useEffect(() => {
-    const inventoryCollection = collection(db, "Users", userID, "Inventory");
-    const q = query(inventoryCollection);
+    let q = "";
 
-    getDocs(q).then((snapshot) => {
-      // console.log("docs size:",snapshot.size)
-      setTotalItems(snapshot.size);
-      dispatch(inventoryActions.setTotalItems(snapshot.size));
-    });
+    try {
+      const inventoryCollection = collection(db, "Users", userID, "Inventory");
+      q = query(inventoryCollection);
+
+      getDocs(q).then((snapshot) => {
+        // console.log("docs size:",snapshot.size)
+        setTotalItems(snapshot.size);
+        dispatch(inventoryActions.setTotalItems(snapshot.size));
+      });
+    } catch (err) {
+      setTotalItems(0);
+      dispatch(inventoryActions.setTotalItems(0));
+    }
   }, [inventoryItems]);
 
   useEffect(() => {
@@ -265,28 +277,37 @@ const Inventory = () => {
         <Header storeTitle={storeName} pageTitle="Inventory" />
 
         <Menu>
-          <Input
-            label={"Category"}
-            width="200"
-            type="select"
-            options={categories}
-            onChange={handleCategory}
-          />
-          {/* <Input label={"Type"} width="200" type="select" options={types} /> */}
-          <Input
-            label={"Sort by"}
-            width="200"
-            type="select"
-            onChange={handleSorting}
-            options={sortBy}
-          />
-          <Input
-            label={"Order by"}
-            width="200"
-            type="select"
-            onChange={handleOrder}
-            options={orderBy}
-          />
+          <div className="inputs">
+            <Input
+              label={"Category"}
+              width="200"
+              type="select"
+              options={categories}
+              onChange={handleCategory}
+            />
+            {/* <Input label={"Type"} width="200" type="select" options={types} /> */}
+            <Input
+              label={"Sort by"}
+              width="200"
+              type="select"
+              onChange={handleSorting}
+              options={sortBy}
+            />
+            <Input
+              label={"Order by"}
+              width="200"
+              type="select"
+              onChange={handleOrder}
+              options={orderBy}
+            />
+          </div>
+
+          {/* <button className="filterButton">
+            <span>
+              <Filter />
+            </span>
+          </button> */}
+
           {itemsSelectedList.length === 0 && (
             <BtnExt onClick={toggleQuickAdd}>
               <span>Add Item </span>{" "}
@@ -410,6 +431,7 @@ const Grid = styled.div`
   width: 100%;
   height: 100%;
   color: black;
+
   h1 {
     user-select: text !important;
   }
@@ -475,6 +497,15 @@ const AddItemBtn = styled.button`
       transform: scale(1.1);
     }
   }
+
+  @media (max-width: 1200px) {
+    font-size: 20px;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
 `;
 
 const BtnExt = styled(AddItemBtn)`
@@ -496,10 +527,22 @@ const BtnExt = styled(AddItemBtn)`
   top: 0px;
   border: ${(props) =>
     props.toggled ? "var(--primary-yellow) solid 2px" : "none"};
+
   span {
     display: inline-block;
   }
+
+  @media (max-width: 1000px) {
+    width: 40px;
+    height: 40px;
+
+    span:nth-child(1) {
+      display: none;
+    }
+  }
 `;
+
+const FilterToggle = styled(AddItemBtn)``;
 
 const Menu = styled.div`
   width: calc(100% - 80px);
@@ -511,13 +554,40 @@ const Menu = styled.div`
   justify-content: flex-start;
   gap: 20px;
 
+  .inputs {
+    display: flex;
+    gap: 20px;
+  }
+
   div.total_Items {
-    /* background: red; */
     height: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
     font-weight: bold;
+
+    @media (max-width: 1400px) {
+      display: none;
+    }
+  }
+
+  @media (max-width: 1600px) {
+    width: calc(100% + 120px);
+  }
+
+  @media (max-width: 1400px) {
+    gap: 10px;
+  }
+
+  @media (max-width: 1200px) {
+    div.inputs {
+      gap: 10px;
+    }
+  }
+  @media (max-width: 900px) {
+    div.inputs {
+      display: none;
+    }
   }
 `;
 
@@ -525,13 +595,11 @@ const ColumnHeader = styled.div`
   color: var(--primary-black);
   display: flex;
   width: 90%;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   margin: 0 auto;
-  margin-bottom: 10px;
+  margin-bottom: 1rem;
   z-index: -1;
-  /* border: solid 1px green; */
-  /* border: solid red 2px; */
 
   span {
     font-weight: bold;
@@ -560,6 +628,62 @@ const ColumnHeader = styled.div`
 
   span.description {
     width: 30%;
+  }
+
+  @media (max-width: 1400px) {
+    span.sku {
+      display: none;
+    }
+  }
+
+  @media (max-width: 1200px) {
+    font-size: 16px;
+  }
+
+  @media (max-width: 900px) {
+    span.description {
+      display: none;
+    }
+    span.image {
+      width: 50px;
+    }
+    span.quantity {
+      content: "Qty" !important;
+    }
+  }
+
+  @media (max-width: 600px) {
+    width: 95%;
+  }
+
+  @media (max-width: 500px) {
+    span.quantity {
+      display: none;
+    }
+    span.id {
+      display: none;
+    }
+    span.name {
+      flex-grow: 1;
+    }
+    span.image {
+      margin-right: 10px;
+    }
+  }
+  @media (max-width: 350px) {
+    justify-content: start;
+    gap: 2rem;
+
+    span.id {
+      display: none;
+    }
+    span.image {
+      width: 30px;
+      margin-right: 0px;
+    }
+    span.price {
+      flex-grow: 1;
+    }
   }
 `;
 
@@ -593,6 +717,10 @@ const SearchBox = styled.div`
     &:active {
       color: var(--primary-yellow);
     }
+  }
+
+  @media (max-width: 1200px) {
+    min-width: 10rem;
   }
 `;
 

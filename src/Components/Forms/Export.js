@@ -19,7 +19,7 @@ import {
 import { v4 as uuid } from "uuid";
 
 const ExportModal = (props) => {
-  const [dynamicConfig, setDynamicConfig] = useState({Name:"Name"});
+  const [dynamicConfig, setDynamicConfig] = useState({ Name: "Name" });
 
   const selectedItemsIndexes = useSelector(
     (state) => state.inventory.itemsSelectedList
@@ -133,7 +133,6 @@ const ExportModal = (props) => {
     if (currentTemplate === "clover") {
       workbook = CloverConversion(selectedItems);
     } else if (currentTemplate === "dynamic") {
-      
       workbook = DynamicConversion(selectedItems, dynamicConfig);
     }
 
@@ -390,19 +389,34 @@ const Grid = styled.form`
   position: relative;
   z-index: 2;
 
+  @media (max-width: 1600px) {
+    width: 70%;
+  }
+  @media (max-width: 1200px) {
+    width: 80%;
+  }
+
+  @media (max-width: 1000px) {
+    width: 90%;
+  }
+
+  @media (max-width: 600px) {
+    width: calc(100% - 20px);
+    height: 80%;
+  }
+
   h3 {
     margin: 20px 0px;
     width: fit-content;
     padding: 0 20px;
     border-radius: 0 25px 25px 0;
     height: 50px;
-    font-size: 1.7rem;
+    font-size: 1.6rem;
     color: white;
     background: var(--primary-black);
-    position: relative; 
+    position: relative;
     left: -20px;
     font-weight: bold;
-    
   }
 
   #close {
@@ -431,6 +445,16 @@ const Grid = styled.form`
       display: flex;
       justify-content: space-between;
       margin-bottom: 10px;
+      flex-wrap: wrap;
+
+      @media (max-width: 1200px) {
+        b {
+          font-size: 14px;
+        }
+      }
+      @media (max-width: 600px) {
+        height: 100px;
+      }
     }
 
     p {
@@ -552,7 +576,6 @@ const SaveTypePrompt = styled.div`
     display: flex;
     justify-content: flex-end;
     gap: 30px;
-    
   }
 `;
 

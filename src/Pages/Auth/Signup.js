@@ -186,6 +186,10 @@ const Grid = styled.div`
   flex-direction: column;`
   }
 `}
+
+  @media (max-width: 1024px) {
+    background: url("/images/login_background.jpeg");
+  }
 `;
 
 const Footer = styled.div`
@@ -199,6 +203,14 @@ const Footer = styled.div`
   z-index: 10;
   height: 100px;
   align-items: center;
+
+  @media (max-width: 1024px) {
+    background: var(--primary-black);
+    color: var(--primary-yellow);
+    width: 100%;
+    font-size: 16px;
+  }
+  
 `;
 
 const LogoContainer = styled.div`
@@ -212,11 +224,21 @@ const LogoContainer = styled.div`
   top: 0px;
   left: 0px;
   z-index: 10;
+
+  @media (max-width: 1024px) {
+    width: 100vw;
+    justify-content: center;
+  }
 `;
 
 const LogoImage = styled.img`
   width: 100px; /* Adjust the width as needed */
   height: 100px; /* Adjust the height as needed */
+
+  @media (max-width: 1024px) {
+    width: 12rem;
+    height: 12rem;
+  }
 `;
 
 const RightSection = styled.div`
@@ -224,6 +246,10 @@ const RightSection = styled.div`
   display: flex;
   background: url("/images/login_background.jpeg") center center no-repeat;
   background-size: cover;
+  right: 0px;
+  top: 0px;
+  height: 100vh;
+  z-index: 1;
 
   .loginOverlay {
     position: absolute;
@@ -232,6 +258,19 @@ const RightSection = styled.div`
     right: 0px;
     top: 0px;
     background: rgba(0, 0, 0, 0.3);
+
+    @media (max-width: 1024px) {
+      width: 100vw;
+      /* background-size: auto; */
+    }
+  }
+
+  @media (max-width: 1024px) {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100vw;
+    height: 100vh;
   }
 `;
 
@@ -259,6 +298,54 @@ const Banner = styled.div`
       }
     }
   }
+
+  @media (max-width: 1024px) {
+    width: 97vw;
+    height: 100px;
+    margin: 0 auto;
+    padding: 0;
+    transform: translate(0px, 100px);
+    flex-direction: row;
+    margin-bottom: 2rem;
+    /* border: solid 2px red; */
+    justify-content: space-between;
+    align-content: space-between;
+    p {
+      font-size: 3rem;
+    }
+  }
+
+  @media (max-width: 1800px) {
+    p {
+      font-size: 5rem;
+    }
+  }
+  @media (max-width: 1500px) {
+    p {
+      font-size: 4rem;
+    }
+  }
+  @media (max-width: 1250px) {
+    p {
+      font-size: 3.5rem;
+    }
+  }
+  @media (max-width: 900px) {
+    gap: 1rem;
+    p {
+      font-size: 2.8rem;
+    }
+  }
+  @media (max-width: 500px) {
+    p {
+      font-size: 2.5rem;
+    }
+  }
+  @media (max-width: 300px) {
+    p {
+      font-size: 2rem;
+    }
+  }
 `;
 
 const LeftSection = styled.div`
@@ -268,6 +355,12 @@ const LeftSection = styled.div`
   justify-content: center;
   align-items: center;
   background: white;
+
+  @media (max-width: 1024px) {
+    background: transparent;
+    z-index: 2;
+    width: 100vw;
+  }
 `;
 
 const Center = styled.div`

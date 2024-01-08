@@ -165,7 +165,7 @@ const UserCredentials = (props) => {
 export default UserCredentials;
 
 const Grid = styled.form`
-  height: 40vh;
+  height: auto;
 
   @media (max-height: 720px) {
     height: 60vh;

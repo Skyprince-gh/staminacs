@@ -151,50 +151,60 @@ const EditItemModal = (props) => {
         <h3>Edit Item</h3>
         <form>
           {currentStep === 1 && (
-            <Fragment>
+            <div>
               <Hgrp>
-                <InputB
-                  label="Item Name *"
-                  name="name"
-                  type="text"
-                  width="20%"
-                  onChange={handleData}
-                  value={formData.name}
-                />
-                <InputB
-                  label="Other Name *"
-                  name="altName"
-                  type="text"
-                  width="20%"
-                  onChange={handleData}
-                  value={formData.altName}
-                />
-                <InputB
-                  label="ID *"
-                  name="id"
-                  type="text"
-                  width="10%"
-                  onChange={handleData}
-                  value={formData.id}
-                />
-                <InputB
-                  label="Price *"
-                  name="price"
-                  type="number"
-                  width="15%"
-                  onChange={handleData}
-                  value={formData.price}
-                  prefix="$"
-                />
-                <InputB
-                  label="Cost *"
-                  name="cost"
-                  type="number"
-                  width="15%"
-                  onChange={handleData}
-                  value={formData.cost}
-                  prefix="$"
-                />
+                <div>
+                  <InputB
+                    label="Item Name *"
+                    name="name"
+                    type="text"
+                    width="100%"
+                    onChange={handleData}
+                    value={formData.name}
+                  />
+                </div>
+                <div>
+                  <InputB
+                    label="Other Name *"
+                    name="altName"
+                    type="text"
+                    width="100%"
+                    onChange={handleData}
+                    value={formData.altName}
+                  />
+                </div>
+                <div>
+                  <InputB
+                    label="ID *"
+                    name="id"
+                    type="text"
+                    width="100%"
+                    onChange={handleData}
+                    value={formData.id}
+                  />
+                </div>
+                <div>
+                  <InputB
+                    label="Price *"
+                    name="price"
+                    type="number"
+                    width="100%"
+                    onChange={handleData}
+                    value={formData.price}
+                    prefix="$"
+                  />
+                </div>
+                <div>
+                  <InputB
+                    label="Cost *"
+                    name="cost"
+                    type="number"
+                    width="100%"
+                    onChange={handleData}
+                    value={formData.cost}
+                    prefix="$"
+                  />
+                </div>
               </Hgrp>
 
               <Hgrp>
@@ -265,109 +275,121 @@ const EditItemModal = (props) => {
               </Hgrp>
 
               <Hgrp width="100%">
-                <InputB
-                  label="Description"
-                  name="description"
-                  type="textArea"
-                  width="60%"
-                  height="200px"
-                  onChange={handleData}
-                  value={formData.description}
-                />
+                <div className="description-field">
+                  <InputB
+                    label="Description"
+                    name="description"
+                    type="textArea"
+                    width="100%"
+                    height="200px"
+                    onChange={handleData}
+                    value={formData.description}
+                  />
+                </div>
               </Hgrp>
-            </Fragment>
+            </div>
           )}
 
           {currentStep === 2 && (
-            <Fragment>
-              <Hgrp width="100%">
-                <ImgField
-                  width="300px"
-                  height="300px"
+            <Hgrp width="100%">
+              <ImgField
+                width="300px"
+                height="300px"
+                onDrop={handleDrop}
+                onDragOver={handleDragOver}
+              >
+                <Label
+                  htmlFor="photo"
                   onDrop={handleDrop}
                   onDragOver={handleDragOver}
                 >
-                  <Label
-                    htmlFor="photo"
-                    onDrop={handleDrop}
-                    onDragOver={handleDragOver}
-                  >
-                    {formData.image === "" && <AddAPhoto />}
-                    {formData.image.length > 3 && <img src={formData.image} />}
-                    {true && (
-                      <input
-                        type="file"
-                        onChange={handleFileSelect}
-                        id="photo"
-                        name="photoUrl"
-                        multiple={false}
-                        // value={blob}
-                      />
-                    )}
-                  </Label>
-                </ImgField>
-                <Vgrp width="60%">
-                  <Hgrp width="100%">
+                  {formData.image === "" && <AddAPhoto />}
+                  {formData.image.length > 3 && <img src={formData.image} />}
+                  {true && (
+                    <input
+                      type="file"
+                      onChange={handleFileSelect}
+                      id="photo"
+                      name="photoUrl"
+                      multiple={false}
+                      // value={blob}
+                    />
+                  )}
+                </Label>
+              </ImgField>
+              <Vgrp width="60%">
+                <Hgrp width="100%">
+                  <div>
                     <InputB
                       label="Quantity *"
                       name="quantity"
                       type="number"
-                      width="15%"
+                      width="100%"
                       onChange={handleData}
                       value={formData.quantity}
                     />
+                  </div>
+                  <div>
                     <InputB
                       label="Brand Name *"
                       name="brand"
                       type="text"
-                      width="30%"
+                      width="100%"
                       onChange={handleData}
                       value={formData.brand}
                     />
+                  </div>
+                  <div>
                     <InputB
                       label="Category *"
                       name="category"
                       type="select"
-                      width="30%"
+                      width="100%"
                       options={categories}
                       onChange={handleData}
                       value={formData.category}
                     />
-                  </Hgrp>
-                  <Hgrp>
+                  </div>
+                </Hgrp>
+                <Hgrp>
+                  <div>
                     <InputB
                       label="Country *"
                       name="country"
                       type="select"
-                      width="30%"
+                      width="100%"
                       options={countries.map((country) => country.name)}
                       onChange={handleData}
                       // defaultValue="Ghana"
                       value={formData.country}
                     />
+                  </div>
+                  <div>
                     <InputB
                       label="Product Year *"
                       name="year"
                       type="select"
-                      width="25%"
+                      width="100%"
                       options={generateArrayOfYears(3)} //subject to settings
                       onChange={handleData}
                       // defaultValue={new Date().getFullYear()}
                       value={formData.year}
                     />
+                  </div>
 
+                  <div>
                     <InputB
                       label="Tags *"
-                      width="20%"
+                      width="100%"
                       name="tags"
                       type="list"
                       onUpdate={handleTags}
                       value={formData.tags}
                     />
-                  </Hgrp>
-                </Vgrp>
-              </Hgrp>
-            </Fragment>
+                  </div>
+                </Hgrp>
+              </Vgrp>
+            </Hgrp>
           )}
         </form>
 
@@ -419,10 +441,24 @@ const Container = styled.section`
 `;
 
 const Grid = styled.section`
-  width: 60%;
   padding: 20px 0px 0px 80px;
   background: white;
   border-radius: 10px;
+
+  @media (max-width: 1200px) {
+    margin-top:20px;
+    width: calc(100% - 40px)
+  }
+  @media (max-width: 600px) {
+    margin-top:0px;
+    padding-left: 20px;
+    width: auto;
+  }
+
+  @media (max-width: 1000px) {
+    overflow: scroll;
+  }
+
   h3 {
     color: black;
     font-size: 24px;
@@ -443,10 +479,23 @@ const Hgrp = styled.div`
   gap: ${(props) => props.gap || "20px"};
   flex-wrap: wrap;
   margin-top: 1.5rem;
+
   span {
     color: var(--primary-black);
     font-weight: bold;
   }
+
+  .description-field {
+    width: 60%;
+
+    @media (max-width: 800px) {
+      width: 80%;
+    }
+    @media (max-width: 600px) {
+      width: 100%;
+    }
+  }
+
   #description {
     position: relative !important;
     bottom: 100px !important;

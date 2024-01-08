@@ -131,6 +131,7 @@ const Item = (props) => {
       // delay={props.animateDelay}
       className={`animate__animated animate__fadeInDown animate__faster`}
     >
+      <div className="select-cover" onClick={toggleCheckbox}></div>
       {!isExpanded && <div className="trigger" onClick={toggleExpand}></div>}
       {!isExpanded && (
         <div className="main-info">
@@ -163,7 +164,7 @@ const Item = (props) => {
           <span className="price">${itemData.price}</span>
           <span className="sku">{itemData.sku}</span>
           <span className="description">{itemData.description}</span>
-          <button onClick={toggleExpand}>
+          <button>
             {!isExpanded && <KeyboardArrowDown />}
             {/* {isExpanded && <KeyboardArrowUp />} */}
           </button>
@@ -200,12 +201,12 @@ const Item = (props) => {
             </div>
           </div>
           {showExtra && (
-            <div className="animate__animated animate__fadeIn">
+            <div className="animate__animated animate__fadeIn show-exta">
               <div className="image">
                 <img src={itemData.image} alt={itemData.name} />
               </div>
               <div className="info">
-                <span>
+                <span className="info-name">
                   <h5>Product Name</h5>
                   <p>{itemData.name}</p>
                 </span>
@@ -290,9 +291,25 @@ const Grid = styled.div`
   transform: ${(props) => (props.expanded ? "scaleX(1.05)" : "scaleX(1)")};
   animation-delay: ${(props) => props.delay + "ms"};
 
+  @media (max-width: 1400px) {
+    height: ${(props) => (props.expanded ? "400px" : "")};
+  }
+  @media (max-width: 800px) {
+    height: ${(props) => (props.expanded ? "800px" : "")};
+  }
+
+  .select-cover {
+    position: absolute;
+    height: 100%;
+    width: 60px;
+    z-index: 2;
+    top: 0px;
+    left: 0px;
+    background: transparent;
+  }
+
   .trigger {
     position: absolute;
-
     z-index: 2;
     width: 97%;
     right: 0px;
@@ -351,14 +368,14 @@ const Grid = styled.div`
   div.main-info {
     width: 100%;
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     height: ${(props) => (props.expanded ? "130px" : "100%")};
+    position: relative;
 
     span {
       font-weight: bold;
       display: inline-block;
-      width: auto;
     }
 
     span.select {
@@ -379,7 +396,13 @@ const Grid = styled.div`
     span.price,
     span.sku {
       width: 10%;
-      text-align: left;
+      /* text-align: left; */
+    }
+
+    span.id {
+      text-overflow: ellipsis;
+      overflow-x: hidden;
+      white-space: nowrap;
     }
 
     span.tags {
@@ -388,13 +411,17 @@ const Grid = styled.div`
 
     span.name {
       width: 15%;
-    }
-
-    span.description {
-      width: 30%;
       text-overflow: ellipsis;
       overflow-x: hidden;
       white-space: nowrap;
+    }
+
+    span.description {
+      width: calc(30%);
+      text-overflow: ellipsis;
+      overflow-x: hidden;
+      white-space: nowrap;
+      padding-right: 40px;
     }
 
     button {
@@ -406,7 +433,82 @@ const Grid = styled.div`
       background: none;
       border: none;
       outline: none;
+      position: absolute;
+      right: 10px;
     }
+
+    @media (max-width: 1400px) {
+      span.sku {
+        display: none;
+      }
+    }
+
+    @media (max-width: 1200px) {
+      font-size: 16px;
+    }
+
+    @media (max-width: 900px) {
+      justify-content: space-between;
+      span.description {
+        display: none;
+      }
+      span.image {
+        width: 50px;
+        height: 50px;
+      }
+
+      button {
+        left: 0px;
+        top: 0px;
+        background: green;
+        width: 85%;
+        height: 100%;
+        right: 0px;
+        display: none;
+      }
+    }
+
+    @media (max-width: 600px) {
+    }
+
+    @media (max-width: 500px) {
+      span.quantity {
+        display: none;
+      }
+      span.id {
+        display: none;
+      }
+      span.name {
+        flex-grow: 1;
+      }
+      span.image{
+        margin-right: 10px;
+      }
+    }
+    @media (max-width: 350px) {
+      justify-content: start;
+      gap: 2rem;
+
+      span.id {
+        display: none;
+      }
+      span.image {
+        width: 30px;
+        height: 30px;
+        margin: 0px;
+      }
+      span.price {
+        flex-grow: 1;
+      }
+    }
+  }
+
+  @media (max-width: 1600px) {
+    width: 90%;
+  }
+
+  @media (max-width: 600px) {
+    width: 95%;
   }
 `;
 
@@ -447,7 +549,14 @@ const MoreInfo = styled.section`
   height: 300px;
   position: relative;
   color: white;
-  /* background: blue; */
+
+  @media (max-width: 1400px) {
+    height: 400px;
+  }
+  @media (max-width: 800px) {
+    height: 800px;
+    flex-grow: 1;
+  }
 
   .controls {
     position: absolute;
@@ -461,7 +570,6 @@ const MoreInfo = styled.section`
     justify-content: space-between;
     align-items: center;
     padding: 0px;
-    /* background: red; */
 
     button {
       color: white;
@@ -475,6 +583,20 @@ const MoreInfo = styled.section`
       &:active {
         color: black;
       }
+    }
+
+    button:nth-child(1) {
+      z-index: 3;
+    }
+
+    button:nth-child(2) {
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      height: 100px;
+      opacity: 0;
+      width: 100%;
+      z-index: 0;
     }
 
     .buttons {
@@ -512,10 +634,21 @@ const MoreInfo = styled.section`
       width: 20%;
       display: flex;
       justify-content: center;
+      overflow: hidden;
       /* border: solid red 1px; */
 
-      input[type="file"] {
-        display: none;
+      @media (max-width: 1600px) {
+        width: 150px;
+        height: 150px;
+      }
+      @media (max-width: 1400px) {
+        width: 120px;
+        height: 120px;
+      }
+
+      @media (max-width: 400px) {
+        width: 100px;
+        height: 100px;
       }
 
       &:hover {
@@ -541,9 +674,8 @@ const MoreInfo = styled.section`
       padding: 30px;
       margin-left: 2em;
       flex-wrap: wrap;
-      gap: 100px;
       row-gap: 10px;
-      /* border: solid yellow 1px; */
+      gap: 10px;
 
       input,
       select {
@@ -554,8 +686,17 @@ const MoreInfo = styled.section`
         border-radius: 5px;
       }
 
+      span.info-name {
+        p {
+          text-overflow: ellipsis;
+          overflow-x: hidden;
+          white-space: nowrap;
+        }
+      }
+
       span {
         display: block;
+        min-width: 150px;
         /* flex-direction: column; */
         justify-content: flex-start;
         h5 {
@@ -567,6 +708,17 @@ const MoreInfo = styled.section`
           font-weight: bold;
           color: white;
           /* background: red; */
+        }
+
+        @media (max-width: 1200px) {
+          font-size: 16px;
+          h5 {
+            font-size: 1.2rem;
+            color: var(--primary-yellow);
+          }
+          p {
+            font-size: 1.6rem;
+          }
         }
       }
 

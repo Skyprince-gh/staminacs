@@ -86,4 +86,11 @@ const Console = styled.div`
 const Workspace = styled.section`
   width: calc(100% - 200px);
   height: 100%;
+  
+  @media (max-width: 1600px) {
+    width: calc(100% - 70px);
+  }
+  @media (max-width: 600px) {
+    width: 100vw;
+  }
 `;

@@ -33,6 +33,14 @@ const HeaderContainer = styled.div`
   display: flex;
   align-items: center;
   font-size: 14px;
+
+  @media (max-width: 1600px) {
+      width: calc(100% - 100px);
+  }
+
+  @media (max-width: 600px) {
+      width: 100%;
+  }
 `;
 
 const LogoContainer = styled.div`
@@ -41,11 +49,22 @@ const LogoContainer = styled.div`
   align-items: center;
   padding-left: 1rem; /* Adjust the padding as needed */
   margin-right: 5rem;
+
+  @media (max-width: 300px) {
+      width:100%;
+      /* border: solid 1px red; */
+      margin-right: 0px;
+      padding-left: 0px;
+      justify-content: center;
+  }
 `;
 
 const LogoImage = styled.img`
   width: 100px; /* Adjust the width as needed */
   height: 100px; /* Adjust the height as needed */
+
+  
+  
 `; 
 
 const TitleContainer = styled.div`
@@ -54,6 +73,18 @@ const TitleContainer = styled.div`
   align-items: center;
   padding-left: 1rem; /* Adjust the padding as needed */
   font-weight: bold;
+  /* border: solid red 1px; */
+
+  @media (max-width: 450px) {
+      display:flex;
+      justify-content: flex-end;
+      padding-right: 10px
+  }
+
+  @media (max-width: 300px) {
+      display:none;
+  }
+  
 `;
 
 const PageTitleContainer = styled.div`
@@ -68,5 +99,9 @@ const PageTitleContainer = styled.div`
 
   h2 {
     border-bottom: var(--primary-yellow) solid 5px;
+  }
+
+  @media (max-width: 450px) {
+      display:none;
   }
 `;

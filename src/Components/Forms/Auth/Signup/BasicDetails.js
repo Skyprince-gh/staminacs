@@ -157,7 +157,7 @@ const BasicDetails = (props) => {
 export default BasicDetails;
 
 const Grid = styled.form`
-  height: 40vh;
+  height: auto;
 
   @media (max-height: 720px) {
     height: 60vh;

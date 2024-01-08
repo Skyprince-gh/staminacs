@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+
 
 :root,
 html {
@@ -15,8 +13,7 @@ html {
   --primary-grey: #fff;
   --red: #ff1717;
   --testcss: #00fb0d2e;
- 
-
+  font-size: 10px;
 }
 
 * {
@@ -39,7 +36,7 @@ body {
 
 @media screen and (max-height: 700px) {
   html {
-    font-size: 14px;
+    font-size: 1.4rem;
   }
 }
 
@@ -111,7 +108,7 @@ body {
 @media only screen and (max-width: 767px) {
   /* Your styles for small screens go here */
   :root{
-    font-size: 10px;
+    /* font-size: 10rem; */
   }
 
 }
@@ -120,7 +117,7 @@ body {
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   /* Your styles for tablets go here */
   :root{
-    font-size: 12px;
+    /* font-size: 12px; */
   }
 }
 
@@ -128,7 +125,7 @@ body {
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
   /* Your styles for small desktops go here */
   :root{
-   font-size: 14px;
+   /* font-size: 14px; */
   }
 }
 

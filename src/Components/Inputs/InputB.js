@@ -43,6 +43,7 @@ const InputB = (props) => {
       position={props.position || ""}
       height={props.height}
       maxWidth={props.maxWidth || ""}
+      minWidth={props.minWidth || ""}
     >
       <label htmlFor={props.name || ""}>{props.label || "label"}</label>
 
@@ -139,6 +140,7 @@ const Grid = styled.div`
   position: relative;
   padding: 0px 10px;
   width: ${(props) => props.width || "100px"};
+  min-width: ${(props) => props.minWidth || "100px"};
   max-width: ${(props) => props.maxWidth || ""};
   height: ${(props) => props.height || "40px"};
   border: solid var(--primary-black) 1px;
@@ -146,6 +148,10 @@ const Grid = styled.div`
   padding-right: 5px;
   background-color: white;
   min-height: ${(props) => (props.type === "textArea" ? "200px" : "")};
+
+  @media(max-width:600px){
+    min-width: ${(props) => props.minWidth || "150px"};
+  }
 
   label {
     display: block;

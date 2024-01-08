@@ -125,11 +125,19 @@ const PaginatedList = () => {
   };
 
   const fetchIventoryItems = async (loadAmount = 100) => {
-    const q = query(
-      collection(db, "Users", userID, "Inventory"),
-      orderBy("created"),
-      limit(loadAmount)
-    );
+    let q = "";
+    try {
+      q = query(
+        collection(db, "Users", userID, "Inventory"),
+        orderBy("created"),
+        limit(loadAmount)
+      );
+    } catch (err) {
+      if (err) {
+        return;
+      }
+    }
+
     console.log("this is the query object:", q);
     const querySnapshot = await getDocs(q);
     const ITEMS = new Set();
@@ -245,11 +253,11 @@ const Container = styled.section`
   width: 100%;
   height: calc(100vh - 4rem - 80px - 10px - 5rem);
   justify-content: flex-start;
-  margin: 0 auto;
+  /* margin: 0 auto; */
   margin-top: 0px;
   overflow-y: scroll;
   padding-top: 10px;
-  position: relative;
+  /* position: relative; */
 
   div.loadMore {
     width: 100%;

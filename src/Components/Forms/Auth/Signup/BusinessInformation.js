@@ -330,8 +330,9 @@ const Grid = styled.form`
     }
   }
 
-  @media (max-height: 720px) {
-    height: 90vh;
+  @media (max-height: 1024px) {
+    position: relative;
+    top: 20px;
   }
 `;
 

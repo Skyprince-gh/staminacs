@@ -20,7 +20,7 @@ import { actions as inventoryActions } from "../../store/inventory";
 // import { Ref } from "react";
 export const AddItem = (props) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [currentStep, setCurrentStep] = useState(1);
   const user = useSelector((state) => state.auth.userAuthCred);
   const tempData = useSelector((state) => state.inventory.tempFormData);
@@ -73,14 +73,8 @@ export const AddItem = (props) => {
       ...formData,
       created: Timestamp.fromDate(new Date()),
       lastModified: Timestamp.fromDate(new Date()),
-    }
-    setDocument(
-      data,
-      "Users",
-      user.uid,
-      "Inventory",
-      formData.id
-    );
+    };
+    setDocument(data, "Users", user.uid, "Inventory", formData.id);
 
     const obj = {};
     obj[`${formData.id}`] = {
@@ -95,23 +89,25 @@ export const AddItem = (props) => {
 
     //add item to indexes locally.
     const idxs = JSON.parse(sessionStorage.getItem("search Indexes"));
-    const newIdxs = [...idxs, {
-      name: formData.name,
-      altName: formData.altName,
-      id: formData.id,
-      productCode: formData.productCode,
-      description: formData.description,
-    }]
-    
-    sessionStorage.setItem("search Indexes",JSON.stringify(newIdxs))
-    
+    const newIdxs = [
+      ...idxs,
+      {
+        name: formData.name,
+        altName: formData.altName,
+        id: formData.id,
+        productCode: formData.productCode,
+        description: formData.description,
+      },
+    ];
+
+    sessionStorage.setItem("search Indexes", JSON.stringify(newIdxs));
+
     //add item to inventory locally.
-    dispatch(inventoryActions.addItem(data))
-    dispatch(inventoryActions.seBulkEditUpdateCounter())
+    dispatch(inventoryActions.addItem(data));
+    dispatch(inventoryActions.seBulkEditUpdateCounter());
     backToInventory(event);
     return;
   };
-
 
   const handleData = (event) => {
     const data = formData;
@@ -141,50 +137,60 @@ export const AddItem = (props) => {
       <h3>Add Item</h3>
       <form>
         {currentStep < 2 && (
-          <Fragment>
+          <div>
             <Hgrp>
-              <InputB
-                label="Item Name *"
-                name="name"
-                type="text"
-                width="20%"
-                onChange={handleData}
-                value={formData.name}
-              />
-              <InputB
-                label="Other Name *"
-                name="altName"
-                type="text"
-                width="20%"
-                onChange={handleData}
-                value={formData.altName}
-              />
-              <InputB
-                label="ID *"
-                name="id"
-                type="text"
-                width="10%"
-                onChange={handleData}
-                value={formData.id}
-              />
-              <InputB
-                label="Price *"
-                name="price"
-                type="number"
-                width="15%"
-                onChange={handleData}
-                value={formData.price}
-                prefix="$"
-              />
-              <InputB
-                label="Cost *"
-                name="cost"
-                type="number"
-                width="15%"
-                onChange={handleData}
-                value={formData.cost}
-                prefix="$"
-              />
+              <div>
+                <InputB
+                  label="Item Name *"
+                  name="name"
+                  type="text"
+                  width="100%"
+                  onChange={handleData}
+                  value={formData.name}
+                />
+              </div>
+              <div>
+                <InputB
+                  label="Other Name *"
+                  name="altName"
+                  type="text"
+                  width="100%"
+                  onChange={handleData}
+                  value={formData.altName}
+                />
+              </div>
+              <div>
+                <InputB
+                  label="ID *"
+                  name="id"
+                  type="text"
+                  width="100%"
+                  onChange={handleData}
+                  value={formData.id}
+                />
+              </div>
+              <div>
+                <InputB
+                  label="Price *"
+                  name="price"
+                  type="number"
+                  width="100%"
+                  onChange={handleData}
+                  value={formData.price}
+                  prefix="$"
+                />
+              </div>
+              <div>
+                <InputB
+                  label="Cost *"
+                  name="cost"
+                  type="number"
+                  width="100%"
+                  onChange={handleData}
+                  value={formData.cost}
+                  prefix="$"
+                />
+              </div>
             </Hgrp>
 
             <Hgrp>
@@ -256,17 +262,19 @@ export const AddItem = (props) => {
             </Hgrp>
 
             <Hgrp width="100%">
-              <InputB
-                label="Description"
-                name="description"
-                type="textArea"
-                width="60%"
-                height="200px"
-                onChange={handleData}
-                value={formData.description}
-              />
+              <div className="description-field">
+                <InputB
+                  label="Description"
+                  name="description"
+                  type="textArea"
+                  width="100%"
+                  height="200px"
+                  onChange={handleData}
+                  value={formData.description}
+                />
+              </div>
             </Hgrp>
-          </Fragment>
+          </div>
         )}
 
         {currentStep > 1 && (
@@ -299,62 +307,74 @@ export const AddItem = (props) => {
             </ImgField>
             <Vgrp width="60%">
               <Hgrp width="100%">
-                <InputB
-                  label="Quantity *"
-                  name="quantity"
-                  type="number"
-                  width="15%"
-                  onChange={handleData}
-                  value={formData.quantity}
-                />
-                <InputB
-                  label="Brand Name *"
-                  name="brand"
-                  type="text"
-                  width="30%"
-                  onChange={handleData}
-                  value={formData.brand}
-                />
-                <InputB
-                  label="Category *"
-                  name="category"
-                  type="select"
-                  width="30%"
-                  options={categories}
-                  onChange={handleData}
-                  value={formData.category}
-                />
+                <div>
+                  <InputB
+                    label="Quantity *"
+                    name="quantity"
+                    type="number"
+                    width="100%"
+                    onChange={handleData}
+                    value={formData.quantity}
+                  />
+                </div>
+                <div>
+                  <InputB
+                    label="Brand Name *"
+                    name="brand"
+                    type="text"
+                    width="100%"
+                    onChange={handleData}
+                    value={formData.brand}
+                  />
+                </div>
+                <div>
+                  <InputB
+                    label="Category *"
+                    name="category"
+                    type="select"
+                    width="100%"
+                    options={categories}
+                    onChange={handleData}
+                    value={formData.category}
+                  />
+                </div>
               </Hgrp>
               <Hgrp>
-                <InputB
-                  label="Country *"
-                  name="country"
-                  type="select"
-                  width="30%"
-                  options={countries.map((country) => country.name)}
-                  onChange={handleData}
-                  // defaultValue="Ghana"
-                  value={formData.country}
-                />
-                <InputB
-                  label="Product Year *"
-                  name="year"
-                  type="select"
-                  width="25%"
-                  options={generateArrayOfYears(3)} //subject to settings
-                  onChange={handleData}
-                  // defaultValue={new Date().getFullYear()}
-                  value={formData.year}
-                />
+                <div>
+                  <InputB
+                    label="Country *"
+                    name="country"
+                    type="select"
+                    width="100%"
+                    options={countries.map((country) => country.name)}
+                    onChange={handleData}
+                    // defaultValue="Ghana"
+                    value={formData.country}
+                  />
+                </div>
+                <div>
+                  <InputB
+                    label="Product Year *"
+                    name="year"
+                    type="select"
+                    width="100%"
+                    options={generateArrayOfYears(3)} //subject to settings
+                    onChange={handleData}
+                    // defaultValue={new Date().getFullYear()}
+                    value={formData.year}
+                  />
+                </div>
 
-                <InputB
-                  label="Tags *"
-                  width="20%"
-                  name="tags"
-                  type="list"
-                  onUpdate={handleTags}
-                  value={formData.tags}
-                />
+                <div>
+                  <InputB
+                    label="Tags *"
+                    width="100%"
+                    name="tags"
+                    type="list"
+                    onUpdate={handleTags}
+                    value={formData.tags}
+                  />
+                </div>
               </Hgrp>
             </Vgrp>
           </Hgrp>
@@ -394,9 +414,21 @@ const Grid = styled.section`
   height: calc(90%-200px);
   margin-top: calc(100% - (100% - 100px));
   padding: 20px 0px 0px 80px;
-  background: var(--primary-grey);
+  background: white;
   border-radius: 10px;
-  z-index: 2;
+  z-index: 2;  
+
+  @media (max-width: 1000px) {
+    margin-top:20px;
+  }
+  @media (max-width: 600px) {
+    margin-top:0px;
+    padding-left: 20px;
+  }
+
+  @media (max-width: 1000px) {
+    overflow: scroll;
+  }
 
   h3 {
     color: black;
@@ -422,6 +454,18 @@ const Hgrp = styled.div`
     color: var(--primary-black);
     font-weight: bold;
   }
+
+  .description-field {
+    width: 60%;
+
+    @media (max-width: 800px) {
+      width: 80%;
+    }
+    @media (max-width: 600px) {
+      width: 100%;
+    }
+  }
+
   #description {
     position: relative !important;
     bottom: 100px !important;
