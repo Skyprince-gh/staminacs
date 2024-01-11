@@ -9,6 +9,8 @@ import {
   AppRegistration,
   Refresh,
   Filter,
+  Filter1,
+  FilterAlt,
 } from "@mui/icons-material";
 import Input from "../../Components/Inputs/Input";
 import QuickAdd from "../../Components/Forms/QuickAdd";
@@ -53,6 +55,7 @@ const Inventory = () => {
   const [indexes, setIndexes] = useState([]);
   const [indexerIsActive, setIndexerIsActive] = useState(false);
   const [bulkEditIsActive, setBulkEditIsActive] = useState(false);
+  const [filterIsToggled, setFilterIsToggled] = useState(false);
 
   const itemsSelectedList = useSelector(
     (state) => state.inventory.itemsSelectedList
@@ -190,6 +193,11 @@ const Inventory = () => {
     event.preventDefault();
 
     setOptionsIsToggled(!optionsIsToggled);
+  };
+
+  const toggleFilter = (event) => {
+    event.preventDefault();
+    setFilterIsToggled(!filterIsToggled);
   };
 
   const handleSorting = (event) => {
@@ -374,6 +382,11 @@ const Inventory = () => {
               />
             )}
           </SearchBox>
+          <div className="filter">
+            <BtnExt onClick={toggleFilter}>
+              <FilterAlt />
+            </BtnExt>
+          </div>
 
           <div className="total_Items">
             <span>Total Items: {total_Items}</span>
@@ -408,7 +421,7 @@ const Inventory = () => {
 
         <PaginatedList />
 
-        <AddItemBtn>?</AddItemBtn>
+        {/* <AddItemBtn>?</AddItemBtn> */}
       </Grid>
 
       {quickAddIsActivated && <QuickAdd toggle={toggleQuickAdd} />}
@@ -420,6 +433,33 @@ const Inventory = () => {
       {bulkEditIsActive && <BulkEditModal toggle={toggleBulkEdit} />}
       {exportIsToggled && <Export toggle={toggleExport} />}
       {editIsToggled && <EditItem toggle={toggleEdit} />}
+
+      {filterIsToggled && (
+        <FilterControls>
+          <Input
+            label={"Category"}
+            width="200"
+            type="select"
+            options={categories}
+            onChange={handleCategory}
+          />
+          {/* <Input label={"Type"} width="200" type="select" options={types} /> */}
+          <Input
+            label={"Sort by"}
+            width="200"
+            type="select"
+            onChange={handleSorting}
+            options={sortBy}
+          />
+          <Input
+            label={"Order by"}
+            width="200"
+            type="select"
+            onChange={handleOrder}
+            options={orderBy}
+          />
+        </FilterControls>
+      )}
     </Fragment>
   );
 };
@@ -465,6 +505,36 @@ const Grid = styled.div`
         transform: rotate(360deg);
       }
     }
+  }
+`;
+
+
+
+const FilterControls = styled.div`
+  width: calc(100vw - 70px);
+  position: absolute;
+  background: white;
+  left: 0px;
+  top: 0px;
+  z-index: 5;
+  display: flex;
+  height: 120px;
+  align-items: center;
+  flex-wrap:wrap;
+  gap: 10px;
+  top:100px;
+  box-shadow: 2px 2px 5px var(--shadow-color);
+  display:none;
+
+  @media (max-width:1000px){
+    display:flex;
+  }
+  @media (max-width:600px){
+    width:100vw;
+  }
+  @media (max-width:420px){
+    height: 180px;
+    justify-content: center;
   }
 `;
 
@@ -532,9 +602,10 @@ const BtnExt = styled(AddItemBtn)`
     display: inline-block;
   }
 
-  @media (max-width: 1000px) {
+  @media (max-width: 1300px) {
     width: 40px;
     height: 40px;
+    justify-content: center;
 
     span:nth-child(1) {
       display: none;
@@ -553,6 +624,10 @@ const Menu = styled.div`
   display: flex;
   justify-content: flex-start;
   gap: 20px;
+
+  .filter {
+    display: none;
+  }
 
   .inputs {
     display: flex;
@@ -584,9 +659,14 @@ const Menu = styled.div`
       gap: 10px;
     }
   }
-  @media (max-width: 900px) {
+  @media (max-width: 1000px) {
+    /* background:var(--primary-black); */
     div.inputs {
       display: none;
+    }
+
+    .filter {
+      display: block;
     }
   }
 `;

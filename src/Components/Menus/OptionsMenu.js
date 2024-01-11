@@ -58,6 +58,14 @@ const Grid = styled.ul`
   border-radius: 10px;
   z-index: 3;
 
+  @media (max-width:1000px) {
+    left: 20px;
+    width: 15rem;
+    height: 10rem;
+    font-size: 2rem;
+    row-gap: 20px;
+  }
+
   li {
     display: flex;
     width: 100%;
