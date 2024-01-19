@@ -17,6 +17,7 @@ import { actions as inventoryActions } from "../../store/inventory";
 import { setDocument } from "../../util/firebase-store";
 import { Timestamp } from "firebase/firestore";
 import AddItem from "../../Pages/Dashboard/AddItem";
+import { Close } from "@mui/icons-material";
 
 const QuickAddModal = (props) => {
   const [itemName, setItemName] = useState("");
@@ -60,7 +61,9 @@ const QuickAddModal = (props) => {
     <div className="container">
       {!quickAddIsExpanded && (
         <Grid className="animate__animated animate__fadeInDown">
-          <Close onClick={props.toggle}>X</Close>
+          <div className="close">
+            <Close onClick={props.toggle} />
+          </div>
           <h3>Add Item</h3>
           <Fields>
             <div className="inputSpace">
@@ -163,6 +166,29 @@ const Grid = styled.form`
   flex-direction: column;
   padding: 20px;
 
+  .close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+    color: var(--primary-black);
+    border: solid 1px var(--primary-black);
+    border-radius: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+      color: var(--primary-yellow);
+    }
+
+    &:active {
+      color: var(--red);
+    }
+  }
+
   h3 {
     margin-bottom: 20px;
     width: 100%;
@@ -170,7 +196,7 @@ const Grid = styled.form`
   }
 
   @media (max-width: 1200px) {
-    h3{
+    h3 {
       font-size: 16px;
     }
   }
@@ -185,26 +211,26 @@ const Grid = styled.form`
   }
 `;
 
-const Close = styled.button`
-  position: absolute;
-  right: 10px;
-  top: 10px;
-  width: 30px;
-  height: 30px;
-  font-size: 20px;
-  font-weight: bold;
-  background: none;
-  border: none;
-  color: var(--primary-black);
+// const Close = styled.button`
+//   position: absolute;
+//   right: 10px;
+//   top: 10px;
+//   width: 30px;
+//   height: 30px;
+//   font-size: 20px;
+//   font-weight: bold;
+//   background: none;
+//   border: none;
+//   color: var(--primary-black);
 
-  &:hover {
-    color: var(--primary-yellow);
-  }
+//   &:hover {
+//     color: var(--primary-yellow);
+//   }
 
-  &:active {
-    color: var(--red);
-  }
-`;
+//   &:active {
+//     color: var(--red);
+//   }
+// `;
 
 const Fields = styled.div`
   display: flex;
@@ -213,19 +239,21 @@ const Fields = styled.div`
   gap: 20px;
   margin: 0 auto;
 
-  div.inputSpace:nth-child(1){
+  div.inputSpace:nth-child(1) {
     width: 50%;
   }
-  div.inputSpace:nth-child(2){
+  div.inputSpace:nth-child(2) {
     width: 20%;
   }
-  div.inputSpace:nth-child(3){
+  div.inputSpace:nth-child(3) {
     width: 20%;
   }
 
   @media (max-width: 500px) {
     flex-direction: column;
-    div.inputSpace:nth-child(1), div.inputSpace:nth-child(2), div.inputSpace:nth-child(3){
+    div.inputSpace:nth-child(1),
+    div.inputSpace:nth-child(2),
+    div.inputSpace:nth-child(3) {
       width: 100%;
     }
   }

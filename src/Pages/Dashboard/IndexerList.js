@@ -26,9 +26,7 @@ const IndexerList = (props) => {
     setMatches(m);
   }, [props.searchParam]);
 
-  useEffect(() => {
-    
-  }, []) 
+  useEffect(() => {}, []);
 
   const returnValue = (length) => {
     if (length > 0) {
@@ -40,17 +38,18 @@ const IndexerList = (props) => {
 
   const fetchAndAddToItems = (obj) => {
     //fetches a single Item at a time
-    dispatch(inventoryActions.switchLoadingIcon(true))
-    console.log("user:", userID)
+    dispatch(inventoryActions.switchLoadingIcon(true));
+    console.log("user:", userID);
     getDocumentByID("Users", userID, "Inventory", obj.id).then((docSnap) => {
       const docData = docSnap.data();
       console.log("document feteched from search:", docData);
       dispatch(inventoryActions.addItem(docData));
       dispatch(inventoryActions.seBulkEditUpdateCounter());
-      dispatch(inventoryActions.switchLoadingIcon(false))
+      dispatch(inventoryActions.switchLoadingIcon(false));
     });
-
-    props.turnOff()
+    
+    props.turnOffSearch()
+    props.turnOff();
   };
 
   return (
@@ -78,6 +77,7 @@ const Indexer = styled.ul`
   top: 110%;
   left: 0%;
   overflow-y: scroll;
+  z-index: 6;
 
   &::-webkit-scrollbar {
     background-color: transparent;
@@ -89,6 +89,17 @@ const Indexer = styled.ul`
     height: 30px;
     width: 5px !important;
     border-radius: 2.5px;
+  }
+
+  @media (max-width: 420px) {
+    z-index: 100;
+    position: static;
+    margin-top: 50px;
+    width: 100vw;
+    height: calc(100vh - 50px);
+    /* height: 500px; */
+    background: transparent;
+    overflow-y: scroll;
   }
 `;
 
@@ -105,6 +116,18 @@ const ListItem = styled.li`
   text-overflow: ellipsis;
   overflow: hidden;
   /* z-index:20; */
+
+  @media (max-width: 420px) {
+    font-size: 25px;
+    height: 40px;
+    margin-bottom: 10px;
+    border-bottom: none;
+    padding-left: 20px;
+    width: calc(100% - 10px);
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+    white-space: nowrap;
+  }
 
   &:hover {
     color: var(--primary-yellow);

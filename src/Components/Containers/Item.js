@@ -256,7 +256,7 @@ const Item = (props) => {
                   {!editIsToggled &&
                     itemData.tags.map((tag) => <p key={tag}>{tag}</p>)}
                 </span>
-                <span>
+                <span className="description">
                   <h5>Description</h5>
                   <p>{itemData.description}</p>
                 </span>
@@ -444,7 +444,8 @@ const Grid = styled.div`
     }
 
     @media (max-width: 1200px) {
-      font-size: 16px;
+      font-size: 14px;
+      gap: 20px;
     }
 
     @media (max-width: 900px) {
@@ -453,8 +454,8 @@ const Grid = styled.div`
         display: none;
       }
       span.image {
-        width: 50px;
-        height: 50px;
+        width: 40px;
+        height: 40px;
       }
 
       button {
@@ -469,6 +470,7 @@ const Grid = styled.div`
     }
 
     @media (max-width: 600px) {
+      gap: 20px;
     }
 
     @media (max-width: 500px) {
@@ -481,20 +483,19 @@ const Grid = styled.div`
       span.name {
         flex-grow: 1;
       }
-      span.image{
+      span.image {
         margin-right: 10px;
+        width: 30px;
+        height: 30px;
       }
     }
     @media (max-width: 350px) {
       justify-content: start;
       gap: 2rem;
-
       span.id {
         display: none;
       }
       span.image {
-        width: 30px;
-        height: 30px;
         margin: 0px;
       }
       span.price {
@@ -707,17 +708,20 @@ const MoreInfo = styled.section`
           font-size: 1.2rem;
           font-weight: bold;
           color: white;
-          /* background: red; */
+          text-overflow: ellipsis;
+
+          overflow-x: hidden;
+          white-space: nowrap;
         }
 
         @media (max-width: 1200px) {
-          font-size: 16px;
+          font-size: 14px;
           h5 {
-            font-size: 1.2rem;
+            font-size: 14px;
             color: var(--primary-yellow);
           }
           p {
-            font-size: 1.6rem;
+            font-size: 16px;
           }
         }
       }
@@ -738,6 +742,23 @@ const MoreInfo = styled.section`
           color: var(--primary-black);
           text-align: center;
           vertical-align: middle;
+        }
+      }
+
+      span.description {
+        /* border: solid green 2px; */
+        height: 100px;
+        max-width: 300px;
+        display: flex;
+        flex-direction: column;
+
+        p {
+          max-height: 200px;
+          flex-grow: 1;
+          height: 100%;
+          /* border: solid yellow 2px; */
+        }
+        @media (max-width: 1200px) {
         }
       }
     }

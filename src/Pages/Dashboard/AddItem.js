@@ -17,6 +17,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Timestamp, disableNetwork } from "firebase/firestore";
 import blobToBase64 from "../../util/blobToBase64";
 import { actions as inventoryActions } from "../../store/inventory";
+import { Close } from "@mui/icons-material";
 // import { Ref } from "react";
 export const AddItem = (props) => {
   const navigate = useNavigate();
@@ -134,6 +135,7 @@ export const AddItem = (props) => {
   return (
     <Grid>
       <Bar step={currentStep} repeat={2} color="yellow" />
+      <div className="close"><Close onClick={props.toggle}/></div>
       <h3>Add Item</h3>
       <form>
         {currentStep < 2 && (
@@ -417,6 +419,30 @@ const Grid = styled.section`
   background: white;
   border-radius: 10px;
   z-index: 2;  
+  position: relative;
+
+  .close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+    color: var(--primary-black);
+    border: solid 1px var(--primary-black);
+    border-radius: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+      color: var(--primary-yellow);
+    }
+
+    &:active {
+      color: var(--red);
+    }
+  }
 
   @media (max-width: 1000px) {
     margin-top:20px;

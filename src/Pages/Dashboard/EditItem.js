@@ -18,6 +18,8 @@ import blobToBase64 from "../../util/blobToBase64";
 import { useDispatch } from "react-redux";
 import { actions as inventoryActions } from "../../store/inventory";
 import ReactDOM from "react-dom";
+import { Close } from "@mui/icons-material";
+
 // import { Ref } from "react";
 const EditItemModal = (props) => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -148,6 +150,9 @@ const EditItemModal = (props) => {
     <div className="container">
       <Grid>
         <Bar step={currentStep} repeat={2} color="yellow" />
+        <div className="close">
+          <Close onClick={props.toggle} />
+        </div>
         <h3>Edit Item</h3>
         <form>
           {currentStep === 1 && (
@@ -444,13 +449,37 @@ const Grid = styled.section`
   padding: 20px 0px 0px 80px;
   background: white;
   border-radius: 10px;
+  position: relative;
+
+  .close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+    color: var(--primary-black);
+    border: solid 1px var(--primary-black);
+    border-radius: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+      color: var(--primary-yellow);
+    }
+
+    &:active {
+      color: var(--red);
+    }
+  }
 
   @media (max-width: 1200px) {
-    margin-top:20px;
-    width: calc(100% - 40px)
+    margin-top: 20px;
+    width: calc(100% - 40px);
   }
   @media (max-width: 600px) {
-    margin-top:0px;
+    margin-top: 0px;
     padding-left: 20px;
     width: auto;
   }

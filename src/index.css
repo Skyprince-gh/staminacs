@@ -13,7 +13,6 @@ html {
   --primary-grey: #fff;
   --red: #ff1717;
   --testcss: #00fb0d2e;
-  font-size: 10px;
 }
 
 * {
@@ -32,12 +31,6 @@ body {
 .isActiveLink {
   color: var(--primary-yellow);
   text-decoration: underliwne;
-}
-
-@media screen and (max-height: 700px) {
-  html {
-    font-size: 1.4rem;
-  }
 }
 
 .container {
@@ -104,35 +97,5 @@ body {
 }
 
 
-/* For small screens like mobile phones */
-@media only screen and (max-width: 767px) {
-  /* Your styles for small screens go here */
-  :root{
-    /* font-size: 10rem; */
-  }
 
-}
 
-/* For tablets and larger screens */
-@media only screen and (min-width: 768px) and (max-width: 991px) {
-  /* Your styles for tablets go here */
-  :root{
-    /* font-size: 12px; */
-  }
-}
-
-/* For small desktops and larger screens */
-@media only screen and (min-width: 992px) and (max-width: 1199px) {
-  /* Your styles for small desktops go here */
-  :root{
-   /* font-size: 14px; */
-  }
-}
-
-/* For larger desktops */
-@media only screen and (min-width: 1200px) {
-  /* Your styles for larger desktops go here */
-  :root{
-   font-size: 16px;
-  }
-}

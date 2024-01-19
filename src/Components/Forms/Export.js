@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Input from "../Inputs/Input";
 import InputB from "../Inputs/InputB";
 import BtnPrimary, { BtnDanger, BtnDisabled } from "../Buttons/Buttons";
-import { FileDownload } from "@mui/icons-material";
+import { Close, FileDownload } from "@mui/icons-material";
 import * as XLSX from "xlsx";
 import organizer from "../../util/xlsxOrganizer";
 import { useSelector } from "react-redux";
@@ -168,7 +168,7 @@ const ExportModal = (props) => {
       <div className="close-div" onClick={props.toggle}></div>
       <Grid className="animate__animated animate__fadeInDown">
         <span id="close" onClick={props.toggle}>
-          X
+          <Close/>
         </span>
         <h3>Export Inventory</h3>
 
@@ -424,6 +424,11 @@ const Grid = styled.form`
     top: 10px;
     right: 15px;
     font-size: 1.3rem;
+    border: solid 1px var(--primary-black);
+    border-radius: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     &:hover {
       color: var(--primary-yellow);

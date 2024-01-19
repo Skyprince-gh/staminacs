@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   ArrowDropDown,
   ArrowDropUp,
+  Close,
   SettingsOverscanTwoTone,
 } from "@mui/icons-material";
 import BulkEditInput from "../Inputs/BulkEditInput";
@@ -503,8 +504,8 @@ const BulkEditModal = (props) => {
               )}
             </div>
           </div>
-          <span onClick={props.toggle} className="close">
-            X
+          <span className="close">
+            <Close onClick={props.toggle} />
           </span>
         </div>
         <div className="table">
@@ -832,7 +833,18 @@ const Modal = styled.div`
     }
 
     span.close {
-      font-size: 30px;
+      /* position: absolute; */
+      right: 10px;
+      top: 10px;
+      width: 30px;
+      height: 30px;
+      font-size: 20px;
+      color: var(--primary-black);
+      border: solid 1px var(--primary-black);
+      border-radius: 2px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
 
       &:hover {
         color: var(--primary-yellow);
@@ -966,6 +978,5 @@ const Modal = styled.div`
     @media (max-width: 900px) {
       bottom: 5px;
     }
-    
   }
 `;

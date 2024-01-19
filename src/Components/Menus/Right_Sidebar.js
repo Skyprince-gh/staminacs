@@ -329,7 +329,7 @@ const RSideBar = styled.nav`
     props.toggled ? "transparent" : "var(--primary-black)"};
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: space-between;
   z-index: 3;
   transition: 0.2s;
 
@@ -348,7 +348,7 @@ const RSideBar = styled.nav`
     align-items: center;
     width: 100%;
     margin-top: 30px;
-    /* position: relative; */
+    position: relative;
 
     ul {
       list-style: none;
@@ -357,9 +357,10 @@ const RSideBar = styled.nav`
       li a {
         height: 30px;
         display: flex;
-        margin: 20px auto;
+        margin: 2vh auto;
         align-items: center;
         padding-left: 20px;
+        /* border: solid green 2px; */
       }
 
       span {
@@ -367,18 +368,22 @@ const RSideBar = styled.nav`
         padding-left: 10px;
       }
     }
+
+   
   }
 
   .extraMenu {
-    position: absolute;
-    bottom: 20px;
+    /* position: absolute; */
+    bottom: 2%;
   }
 
   /* ************************************************* */
   /* Media queries */
   /* ************************************************* */
+
   @media (max-width: 1600px) {
     width: 70px;
+    justify-content: space-between;
 
     div.user-info {
       height: 60px;
@@ -399,7 +404,7 @@ const RSideBar = styled.nav`
       align-items: center;
       width: 100%;
       margin-top: 3rem;
-      /* position: relative; */
+      position: relative;
 
       ul {
         list-style: none;
@@ -426,8 +431,8 @@ const RSideBar = styled.nav`
     }
 
     .extraMenu {
-      position: absolute;
-      bottom: 2rem;
+      /* position: absolute; */
+      bottom: 2%;
     }
   }
 

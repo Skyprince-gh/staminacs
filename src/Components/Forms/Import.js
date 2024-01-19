@@ -6,7 +6,7 @@ import "animate.css";
 import { Fragment, useState } from "react";
 import Input from "../Inputs/Input";
 import BtnPrimary from "../Buttons/Buttons";
-import { UploadFile } from "@mui/icons-material";
+import { Close, UploadFile } from "@mui/icons-material";
 import * as XLSX from "xlsx";
 import organizer from "../../util/xlsxOrganizer";
 import convertCloverToStamina from "../../util/convertCloverToStamina";
@@ -336,7 +336,7 @@ const ImportModal = (props) => {
       <div className="close-div" onClick={props.toggle}></div>
       <Grid className="animate__animated animate__fadeInDown">
         <span id="close" onClick={props.toggle}>
-          X
+         <Close/>
         </span>
         <h3>Import Inventory</h3>
         <div id="main">
@@ -861,6 +861,11 @@ const Grid = styled.form`
     top: 10px;
     right: 15px;
     font-size: 1.3rem;
+    border: solid 1px var(--primary-black);
+    border-radius: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     &:hover {
       color: var(--primary-yellow);

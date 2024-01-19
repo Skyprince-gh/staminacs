@@ -21,7 +21,7 @@ const PaginatedList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [numberOfPages, setNumberOfPages] = useState(0);
   const [buttonIndex, setButtonIndex] = useState(1);
-  const [buttonFillRate, setButtonFillRate] = useState(10);
+  const [buttonFillRate, setButtonFillRate] = useState(0);
   const [resizeCount, setResizeCount] = useState(0);
   const totalInventoryItems = useSelector(
     (state) => state.inventory.totalItems
@@ -44,18 +44,12 @@ const PaginatedList = () => {
       const loaded = value.slice(0, 10);
       setItemsShowing(loaded);
       handleResize();
-
-      // Add event listener for window resize
-      window.addEventListener("resize", handleResize);
     });
   }, []);
 
   useEffect(() => {
     // Initial count based on screen width
     handleResize();
-
-    // Add event listener for window resize
-    window.addEventListener("resize", handleResize);
 
     // Cleanup the event listener on component unmount
     return () => {
@@ -77,7 +71,11 @@ const PaginatedList = () => {
   };
 
   const handleResize = () => {
+    // Add event listener for window resize
+    window.addEventListener("resize", handleResize);
+
     const screenWidth = window.innerWidth;
+    
     // You can adjust the threshold value as needed
     if (screenWidth > 1600) {
       setButtonFillRate(10);
@@ -244,8 +242,10 @@ const PaginatedList = () => {
             fetchIventoryItems(100).then((value) => {
               const loaded = value.slice(0, 10);
               setItemsShowing(loaded);
+              handleResize();
+
+              window.removeEventListener("resize", handleResize);
             });
-            handleResize()
           }}
         >
           Refresh <RefreshOutlined />

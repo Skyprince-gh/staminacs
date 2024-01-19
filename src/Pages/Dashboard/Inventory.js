@@ -56,6 +56,7 @@ const Inventory = () => {
   const [indexerIsActive, setIndexerIsActive] = useState(false);
   const [bulkEditIsActive, setBulkEditIsActive] = useState(false);
   const [filterIsToggled, setFilterIsToggled] = useState(false);
+  const [searchIsToggled, setSearchIsToggled] = useState(false);
 
   const itemsSelectedList = useSelector(
     (state) => state.inventory.itemsSelectedList
@@ -155,6 +156,11 @@ const Inventory = () => {
     setImportIsToggled(!importIsToggled);
   };
 
+  const toggleSearch = (event) => {
+    event.preventDefault();
+    setSearchIsToggled(!searchIsToggled);
+  };
+
   const toggleExport = (event) => {
     event.preventDefault();
     setExportIsToggled(!exportIsToggled);
@@ -199,6 +205,10 @@ const Inventory = () => {
     event.preventDefault();
     setFilterIsToggled(!filterIsToggled);
   };
+
+  const turnOffSearch = event => {
+    setSearchIsToggled(false)
+  }
 
   const handleSorting = (event) => {
     const sortingPrefs = event.target.value;
@@ -310,12 +320,6 @@ const Inventory = () => {
             />
           </div>
 
-          {/* <button className="filterButton">
-            <span>
-              <Filter />
-            </span>
-          </button> */}
-
           {itemsSelectedList.length === 0 && (
             <BtnExt onClick={toggleQuickAdd}>
               <span>Add Item </span>{" "}
@@ -364,27 +368,35 @@ const Inventory = () => {
           </BtnExt>
 
           {indexerIsActive && <SearchBoxBackground onClick={turnIndexerOff} />}
-          <SearchBox>
-            <input
-              value={searchParams}
-              type="text"
-              placeholder={"Search..."}
-              onFocus={fetchIndexes}
-              onChange={getSearchParams}
-              onKeyPress={handleKeyPress}
-            />
-            <Search onClick={fetchMultipleItems} />
-            {indexerIsActive && (
-              <IndexerList
-                turnOff={turnIndexerOff}
-                indexes={indexes}
-                searchParam={searchParams}
+          <div className="searchbox">
+            <SearchBox>
+              <input
+                value={searchParams}
+                type="text"
+                placeholder="Search..."
+                onFocus={fetchIndexes}
+                onChange={getSearchParams}
+                onKeyPress={handleKeyPress}
               />
-            )}
-          </SearchBox>
+              <Search onClick={fetchMultipleItems} />
+              {indexerIsActive && (
+                <IndexerList
+                  turnOff={turnIndexerOff}
+                  turnOffSearch={turnOffSearch}
+                  indexes={indexes}
+                  searchParam={searchParams}
+                />
+              )}
+            </SearchBox>
+          </div>
           <div className="filter">
             <BtnExt onClick={toggleFilter}>
               <FilterAlt />
+            </BtnExt>
+          </div>
+          <div className="search-toggle">
+            <BtnExt onClick={toggleSearch}>
+              <Search />
             </BtnExt>
           </div>
 
@@ -433,6 +445,28 @@ const Inventory = () => {
       {bulkEditIsActive && <BulkEditModal toggle={toggleBulkEdit} />}
       {exportIsToggled && <Export toggle={toggleExport} />}
       {editIsToggled && <EditItem toggle={toggleEdit} />}
+
+      {searchIsToggled && (
+        <MinSearch>
+          <input
+            value={searchParams}
+            type="text"
+            placeholder="Search..."
+            onFocus={fetchIndexes}
+            onChange={getSearchParams}
+            onKeyPress={handleKeyPress}
+          />
+          <Search onClick={fetchMultipleItems} />
+          {indexerIsActive && (
+            <IndexerList
+              turnOff={turnIndexerOff}
+              turnOffSearch={turnOffSearch}
+              indexes={indexes}
+              searchParam={searchParams}
+            />
+          )}
+        </MinSearch>
+      )}
 
       {filterIsToggled && (
         <FilterControls>
@@ -506,35 +540,47 @@ const Grid = styled.div`
       }
     }
   }
+
+  @media (max-width: 420px) {
+    .searchbox {
+      display: none;
+    }
+  }
 `;
-
-
 
 const FilterControls = styled.div`
   width: calc(100vw - 70px);
   position: absolute;
   background: white;
-  left: 0px;
-  top: 0px;
+  left:0px;
   z-index: 5;
   display: flex;
   height: 120px;
   align-items: center;
-  flex-wrap:wrap;
+  flex-wrap: wrap;
   gap: 10px;
-  top:100px;
+  top: 140px;
   box-shadow: 2px 2px 5px var(--shadow-color);
-  display:none;
+  display: none;
 
-  @media (max-width:1000px){
-    display:flex;
+  .filSearch {
+    display: none;
   }
-  @media (max-width:600px){
-    width:100vw;
+
+  @media (max-width: 1000px) {
+    display: flex;
   }
-  @media (max-width:420px){
-    height: 180px;
+  @media (max-width: 600px) {
+    width: 100vw;
+  }
+  @media (max-width: 420px) {
+    height: 220px;
+    top: 140px;
     justify-content: center;
+
+    .filSearch {
+      display: flex;
+    }
   }
 `;
 
@@ -575,6 +621,41 @@ const AddItemBtn = styled.button`
       width: 20px;
       height: 20px;
     }
+  }
+`;
+
+const MinSearch = styled.div`
+  width: 100vw;
+  height: 100vh;
+  z-index: 100;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  display:none;
+  overflow-y: scroll;
+
+  input {
+    width: 90%;
+    height: 50px;
+    border-radius: 25px;
+    margin: 0 auto;
+    position: relative;
+    top: 50px;
+    border: none;
+    outline: none;
+    background:var(--primary-black);
+    padding: 0 20px;
+    font-size: 20px;
+    color: white;
+  }
+
+  @media (max-width: 420px) {
+    display:flex;
+
   }
 `;
 
@@ -629,6 +710,10 @@ const Menu = styled.div`
     display: none;
   }
 
+  .search-toggle {
+    display: none;
+  }
+
   .inputs {
     display: flex;
     gap: 20px;
@@ -659,13 +744,27 @@ const Menu = styled.div`
       gap: 10px;
     }
   }
-  @media (max-width: 1000px) {
+  @media (max-width: 1080px) {
     /* background:var(--primary-black); */
+    margin-left: 50px;
     div.inputs {
       display: none;
     }
 
     .filter {
+      display: block;
+    }
+  }
+
+  @media (max-width: 480px) {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  @media (max-width: 420px) {
+   
+    margin-left: 0px;
+
+    .search-toggle {
       display: block;
     }
   }
@@ -718,6 +817,7 @@ const ColumnHeader = styled.div`
 
   @media (max-width: 1200px) {
     font-size: 16px;
+    gap: 20px;
   }
 
   @media (max-width: 900px) {
@@ -748,6 +848,7 @@ const ColumnHeader = styled.div`
     }
     span.image {
       margin-right: 10px;
+      width: 30px;
     }
   }
   @media (max-width: 350px) {
@@ -780,6 +881,10 @@ const SearchBox = styled.div`
   position: relative;
   z-index: 1;
 
+  &::placeholder {
+    color: black;
+  }
+
   input {
     display: block;
     width: 90%;
@@ -801,6 +906,9 @@ const SearchBox = styled.div`
 
   @media (max-width: 1200px) {
     min-width: 10rem;
+  }
+  @media (max-width: 420px) {
+    width: 90vw;
   }
 `;
 
