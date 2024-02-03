@@ -480,8 +480,9 @@ const Grid = styled.section`
   }
   @media (max-width: 600px) {
     margin-top: 0px;
-    padding-left: 20px;
-    width: auto;
+    /* padding-left: 20px; */
+    width: 100%;
+    height: 100%;
   }
 
   @media (max-width: 1000px) {

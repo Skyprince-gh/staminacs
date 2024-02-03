@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import Fragment from "react";
 
 const Homepage = () => {
   const navigateTo = useNavigate();
@@ -20,30 +21,35 @@ const Homepage = () => {
       <Main>
         <LSide>
           <h2>Stamina IM</h2>
-          <span>Grow</span>
-          <span>Organize</span>
-          <span>Get Things Done</span>
+          <div id="motto">
+            <span>
+              Grow <span className="comma">,</span>
+            </span>
+            <span>
+              Organize <span className="comma">,</span>
+            </span>
+            <span>Get Things Done</span>
+          </div>
           <p>
             with our fast and seamless inventory management system anywhere on
             every computer or smart device
           </p>
-          <ActionBtn onClick={(e) => navigate("/signup")}>
-            Get Started
+          <ActionBtn onClick={(e) => navigate("/signin")}>
+            Sign In
           </ActionBtn>
+
+          <ActionBtn2 onClick={(e) => navigate("/signup")}>
+            Create Free Account
+          </ActionBtn2>
         </LSide>
         <RSide>
-          <div className="desktop">
-            <img src="/images/desktop.png" alt="" />
-          </div>
-          <div className="tablet">
-            <img src="/images/tablet.png" alt="" />
-          </div>
+          <img src="/images/devices.png" alt="" />
         </RSide>
       </Main>
-      <Band>
+      {/* <Band>
         Effective and Efficient Inventory Management at Home, Work or On The Go
       </Band>
-      <Footer />
+      <Footer /> */}
     </Grid>
   );
 };
@@ -51,11 +57,12 @@ const Homepage = () => {
 export default Homepage;
 
 const Grid = styled.div`
-  width: 100dvw;
-  height: auto;
+  width: 100vw;
+  height: 100vh;
   background: white;
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
 `;
 
 const Bar = styled.div`
@@ -86,15 +93,15 @@ const Bar = styled.div`
       }
     }
 
-    @media (max-width: 500px) {
-    button{
-      display: none;
-    }
+    @media (max-width: 600px) {
+      button {
+        display: flex;
+      }
 
-    a{
-      margin-right: 10px
+      a {
+        display: none;
+      }
     }
-  }
   }
 `;
 
@@ -151,13 +158,14 @@ const LSide = styled.div`
   width: 30vw;
   margin-top: 2rem;
 
-  @media (max-width: 600px) {
-    margin-left: 20px;
-  }
-  @media (max-width: 1000px) {
-    width: 100vw;
-    justify-content: flex-start;
-    align-items: flex-start;
+  #motto {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+
+    .comma {
+      display: none;
+    }
   }
 
   h2 {
@@ -176,15 +184,48 @@ const LSide = styled.div`
   span:nth-child(4) {
     margin-bottom: 3rem;
   }
+
   p {
     font-size: 1.8rem;
     font-weight: bold;
     text-align: center;
     margin-bottom: 2rem;
+  }
 
-    @media (max-width: 1000px) {
-      text-align: left;
+  @media (max-width: 1080px) {
+    width: 100vw;
+    justify-content: center;
+    align-items: center;
+    margin-left: 0px;
+
+    p {
+      text-align: center;
       width: 70%;
+    }
+
+    #motto {
+      flex-direction: row;
+      gap: 10px;
+      flex-wrap: wrap;
+      text-align: center;
+
+      .comma {
+        display: inline;
+      }
+    }
+  }
+
+  @media (max-width: 600px) {
+    align-items: center;
+    justify-content: center;
+    
+    #motto {
+      font-size: 10px !important;
+      justify-content: center;
+    }
+
+    p{
+      display: none;
     }
   }
 `;
@@ -196,84 +237,24 @@ const RSide = styled.div`
   width: 60vw;
   display: flex;
   justify-content: flex-end;
-  /* border: solid brown 2px; */
 
-  @media (max-width: 1000px) {
+  img {
+    height: 500px;
+  }
+
+  @media (max-width: 1200px) {
+    img {
+      height: 450px;
+    }
+  }
+  @media (max-width: 1080px) {
     width: 100vw;
+    img {
+      height: 400px;
+      margin: 20px auto;
+    }
   }
   @media (max-width: 600px) {
-    .desktop,
-    .tablet {
-      display: none;
-    }
-  }
-
-  .desktop {
-    width: 40rem;
-    height: 25rem;
-    border-radius: 1rem;
-    background: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0.5rem;
-
-    @media (max-width: 1200px) {
-      top: 150px;
-      width: 60rem;
-      height: 35rem;
-    }
-
-    @media (max-width: 1000px) {
-      width: calc(60rem / 1.5);
-      height: calc(35rem / 1.5);
-    }
-
-    @media (max-width: 600px) {
-      display: none;
-    }
-    img {
-      width: 100%;
-      height: 100%;
-      display: block;
-      border-radius: 0.8rem;
-    }
-  }
-  .tablet {
-    width: calc(40rem / 1.5);
-    height: calc(25rem / 1.5);
-    border-radius: calc(1rem / 1.5);
-    background: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0.5rem;
-    position: absolute;
-    bottom: 0px;
-    right: -3rem;
-
-    @media (max-width: 1200px) {
-      top: 250px;
-      width: 300px;
-      height: 200px;
-    }
-
-    @media (max-width: 1000px) {
-      width: calc(300px / 1.5);
-      height: calc(200px / 1.5);
-      top: 150px;
-      right: 0px;
-    }
-    @media (max-width: 600px) {
-      display: none;
-    }
-
-    img {
-      width: 100%;
-      height: 100%;
-      display: block;
-      border-radius: calc(0.8rem / 1.5);
-    }
   }
 `;
 
@@ -282,8 +263,33 @@ const ActionBtn = styled(Button)`
   height: 3rem;
   font-size: 1.6rem;
   border-radius: 10rem;
-  
+
+  @media (max-width: 500px) {
+    width: 15rem;
+    height: 2.5rem;
+    font-size: 14px;
+    border-radius: calc(0.5 * 2.5rem);
+    margin: 0 auto;
+  }
 `;
+
+const ActionBtn2 = styled(ActionBtn)`
+background:white; 
+border: solid black 2px;
+margin-top: 50px;
+box-shadow: 2px 2px 4px var(--shadow-color2) ;
+color: var(--primary-black);
+display: none;
+
+&:active{
+  background-color: var(--primary-black);
+  color: white;
+}
+
+@media (max-width:600px) {
+  display:flex;
+}
+`
 
 const Band = styled.div`
   width: 100vw;
@@ -294,11 +300,11 @@ const Band = styled.div`
   align-items: center;
   font-size: 2rem;
   font-weight: bold;
-  position: absolute;
-  bottom: 100px;
 
   @media (max-width: 500px) {
-    height: 150px;
+    height: 100px;
+    font-size: 14px;
+    text-align: center;
   }
 `;
 
@@ -306,9 +312,9 @@ const Footer = styled.div`
   width: 100vw;
   flex-grow: 1;
   background: url("/images/footer.jpg");
-  position: absolute;
-  bottom: 0px;
-  left: 0px;
   height: 100px;
   /* border: solid green 2px; */
+  @media (max-width: 500px) {
+    height: 50px;
+  }
 `;

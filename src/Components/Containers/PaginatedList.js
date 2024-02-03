@@ -75,7 +75,7 @@ const PaginatedList = () => {
     window.addEventListener("resize", handleResize);
 
     const screenWidth = window.innerWidth;
-    
+
     // You can adjust the threshold value as needed
     if (screenWidth > 1600) {
       setButtonFillRate(10);
@@ -305,14 +305,10 @@ const Container = styled.section`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: calc(100vh - 4rem - 80px - 10px - 5rem);
   justify-content: flex-start;
-  /* margin: 0 auto; */
   margin-top: 0px;
   overflow-y: scroll;
   padding-top: 10px;
-  /* position: relative; */
-
   .refresh {
     width: 150px;
     height: 30px;

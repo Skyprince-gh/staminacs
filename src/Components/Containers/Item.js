@@ -1,10 +1,12 @@
 import styled from "styled-components";
-import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
+import { Close, KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 import "animate.css";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { actions as inventoryActions } from "../../store/inventory";
 import Input from "../Inputs/Input";
+import { Fragment } from "react";
+import ReactDOM from "react-dom";
 
 const Item = (props) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -126,61 +128,17 @@ const Item = (props) => {
   };
 
   return (
-    <Grid
-      expanded={isExpanded}
-      // delay={props.animateDelay}
-      className={`animate__animated animate__fadeInDown animate__faster`}
-    >
-      <div className="select-cover" onClick={toggleCheckbox}></div>
-      {!isExpanded && <div className="trigger" onClick={toggleExpand}></div>}
-      {!isExpanded && (
-        <div className="main-info">
-          <span className="select">
-            {/* <Input
-              type="checkbox"
-              name="isSelected"
-              onChecked={(e) => handleCheckbox(e.target.checked)}
-              value={isSelect}
-            /> */}
-            <SelectCircle
-              expanded={isExpanded}
-              className="circle"
-              onClick={toggleCheckbox}
-            >
-              {isSelect && <div className="inner"></div>}
-            </SelectCircle>
-          </span>
-          <span className="image">
-            {!isExpanded && (
-              <ProductImage
-                src={itemData.image}
-                alt={itemData.name + " " + "image"}
-              />
-            )}
-          </span>
-          <span className="id">{itemData.id}</span>
-          <span className="name">{itemData.name}</span>
-          <span className="quantity">{itemData.quantity}</span>
-          <span className="price">${itemData.price}</span>
-          <span className="sku">{itemData.sku}</span>
-          <span className="description">{itemData.description}</span>
-          <button>
-            {!isExpanded && <KeyboardArrowDown />}
-            {/* {isExpanded && <KeyboardArrowUp />} */}
-          </button>
-        </div>
-      )}
-
-      {isExpanded && (
-        <MoreInfo editMode={editIsToggled}>
-          <div className="controls">
+    <Fragment>
+      <Grid
+        expanded={isExpanded}
+        // delay={props.animateDelay}
+        className={`animate__animated animate__fadeInDown animate__faster`}
+      >
+        {/* <div className="select-cover" onClick={toggleCheckbox}></div> */}
+        {!isExpanded && <div className="trigger" onClick={toggleExpand}></div>}
+        {!isExpanded && (
+          <div className="main-info">
             <span className="select">
-              {/* <Input
-                type="checkbox"
-                name="isSelected"
-                onChecked={(e) => handleCheckbox(e.target.checked)}
-                value={isSelect}
-              /> */}
               <SelectCircle
                 expanded={isExpanded}
                 className="circle"
@@ -189,87 +147,318 @@ const Item = (props) => {
                 {isSelect && <div className="inner"></div>}
               </SelectCircle>
             </span>
-            <div className="buttons">
-              {isExpanded && (
-                <button onClick={handleMoreInfo}>Edit Item</button>
+            <span className="image">
+              {!isExpanded && (
+                <ProductImage
+                  src={itemData.image}
+                  alt={itemData.name + " " + "image"}
+                />
               )}
-
-              <button onClick={toggleExpand}>
-                {!isExpanded && <KeyboardArrowDown />}
-                {isExpanded && <KeyboardArrowUp />}
-              </button>
-            </div>
+            </span>
+            <span className="id">{itemData.id}</span>
+            <span className="name">{itemData.name}</span>
+            <span className="quantity">{itemData.quantity}</span>
+            <span className="price">${itemData.price}</span>
+            <span className="sku">{itemData.sku}</span>
+            <span className="description">{itemData.description}</span>
+            <button>
+              {!isExpanded && <KeyboardArrowDown />}
+              {/* {isExpanded && <KeyboardArrowUp />} */}
+            </button>
           </div>
-          {showExtra && (
-            <div className="animate__animated animate__fadeIn show-exta">
-              <div className="image">
-                <img src={itemData.image} alt={itemData.name} />
-              </div>
-              <div className="info">
-                <span className="info-name">
-                  <h5>Product Name</h5>
-                  <p>{itemData.name}</p>
-                </span>
+        )}
 
-                <span>
-                  <h5>ID Number</h5>
-                  <p>{itemData.id}</p>
-                </span>
+        {isExpanded && (
+          <MoreInfo editMode={editIsToggled}>
+            <div className="controls">
+              <span className="select">
+                {/* <Input
+                type="checkbox"
+                name="isSelected"
+                onChecked={(e) => handleCheckbox(e.target.checked)}
+                value={isSelect}
+              /> */}
+                <SelectCircle
+                  expanded={isExpanded}
+                  className="circle"
+                  onClick={toggleCheckbox}
+                >
+                  {isSelect && <div className="inner"></div>}
+                </SelectCircle>
+              </span>
+              <div className="buttons">
+                {isExpanded && (
+                  <button onClick={handleMoreInfo}>Edit Item</button>
+                )}
 
-                <span>
-                  <h5>Brand</h5>
-                  <p>{itemData.brand}</p>
-                </span>
-
-                <span>
-                  <h5>Price</h5>
-                  <p>{itemData.price}</p>
-                </span>
-
-                <span>
-                  <h5>Product Year</h5>
-                  <p>{itemData.year}</p>
-                </span>
-
-                <span>
-                  <h5>Made In</h5>
-                  <p>{itemData.country}</p>
-                </span>
-
-                <span>
-                  <h5>Discount</h5>
-                  <p>{itemData.discount}%</p>
-                </span>
-
-                <span>
-                  <h5>SKU | Barcode</h5>
-                  <p>{itemData.sku | " "}</p>
-                </span>
-
-                <span>
-                  <h5>Quantity</h5>
-                  <p>{itemData.quantity}</p>
-                </span>
-
-                <span className="tags">
-                  <h5>Tags</h5>
-                  {!editIsToggled &&
-                    itemData.tags.map((tag) => <p key={tag}>{tag}</p>)}
-                </span>
-                <span className="description">
-                  <h5>Description</h5>
-                  <p>{itemData.description}</p>
-                </span>
+                <button onClick={toggleExpand}>
+                  {!isExpanded && <KeyboardArrowDown />}
+                  {isExpanded && <KeyboardArrowUp />}
+                </button>
               </div>
             </div>
-          )}
-        </MoreInfo>
+            {showExtra && (
+              <div className="animate__animated animate__fadeIn show-exta">
+                <div className="image">
+                  <img src={itemData.image} alt={itemData.name} />
+                </div>
+                <div className="info">
+                  <span className="info-name">
+                    <h5>Product Name</h5>
+                    <p>{itemData.name}</p>
+                  </span>
+
+                  <span>
+                    <h5>ID Number</h5>
+                    <p>{itemData.id}</p>
+                  </span>
+
+                  <span>
+                    <h5>Brand</h5>
+                    <p>{itemData.brand}</p>
+                  </span>
+
+                  <span>
+                    <h5>Price</h5>
+                    <p>{itemData.price}</p>
+                  </span>
+
+                  <span>
+                    <h5>Product Year</h5>
+                    <p>{itemData.year}</p>
+                  </span>
+
+                  <span>
+                    <h5>Made In</h5>
+                    <p>{itemData.country}</p>
+                  </span>
+
+                  <span>
+                    <h5>Discount</h5>
+                    <p>{itemData.discount}%</p>
+                  </span>
+
+                  <span>
+                    <h5>SKU | Barcode</h5>
+                    <p>{itemData.sku | " "}</p>
+                  </span>
+
+                  <span>
+                    <h5>Quantity</h5>
+                    <p>{itemData.quantity}</p>
+                  </span>
+
+                  <span className="tags">
+                    <h5>Tags</h5>
+                    {!editIsToggled &&
+                      itemData.tags.map((tag) => <p key={tag}>{tag}</p>)}
+                  </span>
+                  <span className="description">
+                    <h5>Description</h5>
+                    <p>{itemData.description}</p>
+                  </span>
+                </div>
+              </div>
+            )}
+          </MoreInfo>
+        )}
+      </Grid>
+      {isExpanded && (
+        <MobileCardExpansion
+          toggle={toggleExpand}
+          itemData={itemData}
+          handleMoreInfo={handleMoreInfo}
+        />
       )}
-    </Grid>
+    </Fragment>
   );
 };
 
 export default Item;
+
+const Expansion = (props) => {
+  const itemData = props.itemData;
+  return (
+    <ExpandedCardGrid className="animate__animated animate__zoomIn animate__faster">
+      <div className="close" onClick={props.toggle}>
+        <Close />
+      </div>
+      <div className="image">
+        <img src={itemData.image} alt={itemData.name} />
+      </div>
+      <span className="info-name">
+        <h5>Product Name</h5>
+        <p>{itemData.name}</p>
+      </span>
+
+      <span>
+        <h5>ID Number</h5>
+        <p>{itemData.id}</p>
+      </span>
+
+      <span>
+        <h5>Brand</h5>
+        <p>{itemData.brand}</p>
+      </span>
+
+      <span>
+        <h5>Price</h5>
+        <p>{itemData.price}</p>
+      </span>
+
+      <span>
+        <h5>Product Year</h5>
+        <p>{itemData.year}</p>
+      </span>
+
+      <span>
+        <h5>Made In</h5>
+        <p>{itemData.country}</p>
+      </span>
+
+      <span>
+        <h5>Discount</h5>
+        <p>{itemData.discount}%</p>
+      </span>
+
+      <span>
+        <h5>SKU | Barcode</h5>
+        <p>{itemData.sku | " "}</p>
+      </span>
+
+      <span>
+        <h5>Quantity</h5>
+        <p>{itemData.quantity}</p>
+      </span>
+
+      <span className="tags">
+        <h5>Tags</h5>
+
+        {itemData.tags.map((tag) => (
+          <p key={tag}>{tag}</p>
+        ))}
+      </span>
+      <span className="description">
+        <h5>Description</h5>
+        <p>{itemData.description}</p>
+      </span>
+      <button
+        onClick={(e) => {
+          props.handleMoreInfo(e);
+          props.toggle(e);
+        }}
+      >
+        Edit Item
+      </button>
+    </ExpandedCardGrid>
+  );
+};
+
+const MobileCardExpansion = (props) => {
+  return (
+    <Fragment>
+      {ReactDOM.createPortal(
+        <Expansion
+          toggle={props.toggle}
+          itemData={props.itemData}
+          handleMoreInfo={props.handleMoreInfo}
+        />,
+        document.getElementById("backdrop-root")
+      )}
+    </Fragment>
+  );
+};
+
+const ExpandedCardGrid = styled.div`
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--primary-black);
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 500;
+  display: none;
+  overflow-y: scroll;
+
+  div.image {
+    margin: 60px auto;
+    display: flex;
+    justify-content: center;
+    width: 200px;
+    height: 200px;
+  }
+
+  span {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 50px;
+    width: 80%;
+    margin: 0 auto;
+
+    h5 {
+      color: var(--primary-yellow);
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    p {
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  }
+
+  button {
+    display: flex;
+    min-height: 40px;
+    width: 200px;
+    background: var(--primary-yellow);
+    color: var(--primary-black);
+    font-weight: bold;
+    border: none;
+    border-radius: 20px;
+    margin: 60px auto;
+    justify-content: center;
+    align-items: center;
+
+    &:active {
+      color: white;
+      background: transparent;
+      border: solid var(--primary-yellow);
+    }
+  }
+
+  .close {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 50px;
+    color: white;
+    border: solid white 1px;
+    border-radius: 10px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+
+    &:active {
+      border-color: var(--primary-yellow);
+      color: var(--primary-yellow);
+    }
+
+    svg {
+      width: 30px;
+      height: 30px;
+    }
+  }
+
+  @media (max-width: 900px) {
+    display: flex;
+    flex-direction: column;
+  }
+`;
 
 const Grid = styled.div`
   width: 90%;
@@ -281,21 +470,24 @@ const Grid = styled.div`
   flex-direction: column;
   align-items: ${(props) => (props.expanded ? "flex-start" : "center")};
   transition: 0.3s ease-in-out;
-  position: relative;
-  bottom: ${(props) => (props.expanded ? "1px" : "")};
   border: ${(props) =>
-    props.expanded ? "solid 1px var(--primary-black)" : ""};
-  border-radius: ${(props) => (props.expanded ? "10px" : "")};
-  margin: 0 auto;
-  border-top: solid black 1px;
+    props.expanded ? "solid 1px var(--primary-black)" : "solid 0.5px #AFAFAF"};
+  border-radius: ${(props) => (props.expanded ? "10px" : "10px")};
+  margin: 5px auto;
+  /* border-top: solid black 1px; */
   transform: ${(props) => (props.expanded ? "scaleX(1.05)" : "scaleX(1)")};
   animation-delay: ${(props) => props.delay + "ms"};
+  box-shadow: ${(props) =>
+    props.expanded ? "" : "1px 4px 4px var(--shadow-color2)"};
 
   @media (max-width: 1400px) {
     height: ${(props) => (props.expanded ? "400px" : "")};
   }
   @media (max-width: 800px) {
     height: ${(props) => (props.expanded ? "800px" : "")};
+  }
+  @media (max-width: 500px) {
+    overflow-x: hidden;
   }
 
   .select-cover {
@@ -306,15 +498,18 @@ const Grid = styled.div`
     top: 0px;
     left: 0px;
     background: transparent;
+    border: solid red 2px;
+    /* background: grey; */
   }
 
   .trigger {
     position: absolute;
     z-index: 2;
-    width: 97%;
+    width: calc(100% - 60px);
     right: 0px;
     height: 100%;
     background: transparent;
+    /* border: 2px solid green; */
 
     cursor: ns-resize;
   }
@@ -380,6 +575,10 @@ const Grid = styled.div`
 
     span.select {
       width: 50px;
+      display: flex;
+      align-items: center;
+      /* border: solid 2px green; */
+      justify-items: center;
     }
 
     span.image {
@@ -520,8 +719,8 @@ const SelectCircle = styled.div`
   border: solid 1px
     ${(props) =>
       props.expanded ? "var(--primary-yellow)" : "var(--primary-black)"};
-  margin-left: 10px;
-  margin-top: 20px;
+
+  margin: 0 auto;
   display: flex;
   justify-content: center;
   align-items: center;

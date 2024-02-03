@@ -27,6 +27,7 @@ const RightSidebar = () => {
   const [quickUserSettingsIsActive, setQuickUserSettingsIsActive] =
     useState(false);
   const [bottomMenuIsActive, setBottomMenuIsActive] = useState(false);
+  const [defaultMenuIsActivated, setDefaultMenuIsActivated] = useState(true);
   const dispatch = useDispatch();
 
   const userImageURL = useSelector((state) => state.auth.userImageURL);
@@ -47,6 +48,14 @@ const RightSidebar = () => {
     if (bottomMenuIsActive) {
       setBottomMenuIsActive(!bottomMenuIsActive);
     }
+  };
+
+  const activateDefaultMenu = () => {
+    setDefaultMenuIsActivated(true);
+  };
+
+  const deactivateDefaultMenu = () => {
+    setDefaultMenuIsActivated(false);
   };
 
   useEffect(() => {
@@ -193,7 +202,10 @@ const RightSidebar = () => {
       )}
 
       {!quickUserSettingsIsActive && (
-        <BottomMenu toggled={bottomMenuIsActive}>
+        <BottomMenu
+          toggled={bottomMenuIsActive}
+          defaultIsActivated={defaultMenuIsActivated}
+        >
           <Fragment>
             <div className="pullMenu" onClick={triggerBottomMenu}>
               <ExpandLess />
@@ -203,10 +215,15 @@ const RightSidebar = () => {
                 <li>
                   <NavLink
                     className={({ isActive }) =>
-                      isActive ? "isActiveLink" : ""
+                      isActive
+                        ? "isActiveLinkB default"
+                        : "isNotActiveLinkB default"
                     }
                     to="/dashboard/home"
-                    onClick={toggleBottomMenu}
+                    onClick={(e) => {
+                      toggleBottomMenu();
+                      activateDefaultMenu();
+                    }}
                   >
                     <HomeOutlined />
                     <span>Home</span>
@@ -215,10 +232,15 @@ const RightSidebar = () => {
                 <li>
                   <NavLink
                     className={({ isActive }) =>
-                      isActive ? "isActiveLink" : ""
+                      isActive
+                        ? "isActiveLinkB  mid currentActive"
+                        : "isNotActiveLinkB special "
                     }
                     to="/dashboard/inventory"
-                    onClick={toggleBottomMenu}
+                    onClick={(e) => {
+                      toggleBottomMenu();
+                      deactivateDefaultMenu();
+                    }}
                   >
                     <Inventory2Outlined />
                     <span>Inventory</span>
@@ -227,10 +249,15 @@ const RightSidebar = () => {
                 <li>
                   <NavLink
                     className={({ isActive }) =>
-                      isActive ? "isActiveLink" : ""
+                      isActive
+                        ? "isActiveLinkB  mid currentActive"
+                        : "isNotActiveLinkB"
                     }
                     to="/dashboard/tasks"
-                    onClick={toggleBottomMenu}
+                    onClick={(e) => {
+                      toggleBottomMenu();
+                      deactivateDefaultMenu();
+                    }}
                   >
                     <ContentPasteOutlined />
                     <span>Tasks</span>
@@ -239,10 +266,15 @@ const RightSidebar = () => {
                 <li>
                   <NavLink
                     className={({ isActive }) =>
-                      isActive ? "isActiveLink" : ""
+                      isActive
+                        ? "isActiveLinkB  mid currentActive"
+                        : "isNotActiveLinkB"
                     }
                     to="/dashboard/history"
-                    onClick={toggleBottomMenu}
+                    onClick={(e) => {
+                      toggleBottomMenu();
+                      deactivateDefaultMenu();
+                    }}
                   >
                     <AccessTime />
                     <span>History</span>
@@ -251,10 +283,15 @@ const RightSidebar = () => {
                 <li>
                   <NavLink
                     className={({ isActive }) =>
-                      isActive ? "isActiveLink" : ""
+                      isActive
+                        ? "isActiveLinkB  mid currentActive"
+                        : "isNotActiveLinkB"
                     }
                     to="/dashboard/updates"
-                    onClick={toggleBottomMenu}
+                    onClick={(e) => {
+                      toggleBottomMenu();
+                      deactivateDefaultMenu();
+                    }}
                   >
                     <NotificationsOutlined />
                     <span>Updates</span>
@@ -263,10 +300,15 @@ const RightSidebar = () => {
                 <li>
                   <NavLink
                     className={({ isActive }) =>
-                      isActive ? "isActiveLink" : ""
+                      isActive
+                        ? "isActiveLinkB  mid currentActive"
+                        : "isNotActiveLinkB"
                     }
                     to="/dashboard/invoice"
-                    onClick={toggleBottomMenu}
+                    onClick={(e) => {
+                      toggleBottomMenu();
+                      deactivateDefaultMenu();
+                    }}
                   >
                     <ReceiptOutlined />
                     <span>Invoice</span>
@@ -275,10 +317,15 @@ const RightSidebar = () => {
                 <li>
                   <NavLink
                     className={({ isActive }) =>
-                      isActive ? "isActiveLink" : ""
+                      isActive
+                        ? "isActiveLinkB  mid currentActive"
+                        : "isNotActiveLinkB"
                     }
                     to="/dashboard/chat"
-                    onClick={toggleBottomMenu}
+                    onClick={(e) => {
+                      toggleBottomMenu();
+                      deactivateDefaultMenu();
+                    }}
                   >
                     <ChatBubbleOutline />
                     <span>Chat</span>
@@ -287,10 +334,15 @@ const RightSidebar = () => {
                 <li>
                   <NavLink
                     className={({ isActive }) =>
-                      isActive ? "isActiveLink" : ""
+                      isActive
+                        ? "isActiveLinkB  mid currentActive"
+                        : "isNotActiveLinkB"
                     }
                     to="/dashboard/billing"
-                    onClick={toggleBottomMenu}
+                    onClick={(e) => {
+                      toggleBottomMenu();
+                      deactivateDefaultMenu();
+                    }}
                   >
                     <CreditCard />
                     <span>Billing</span>
@@ -299,10 +351,15 @@ const RightSidebar = () => {
                 <li>
                   <NavLink
                     className={({ isActive }) =>
-                      isActive ? "isActiveLink" : ""
+                      isActive
+                        ? "isActiveLinkB default"
+                        : "isNotActiveLinkB default"
                     }
                     to="/dashboard/settings"
-                    onClick={toggleBottomMenu}
+                    onClick={(e) => {
+                      toggleBottomMenu();
+                      activateDefaultMenu();
+                    }}
                   >
                     <Settings />
                     <span>Settings</span>
@@ -368,8 +425,6 @@ const RSideBar = styled.nav`
         padding-left: 10px;
       }
     }
-
-   
   }
 
   .extraMenu {
@@ -450,9 +505,45 @@ const BottomMenu = styled.nav`
   background: var(--primary-black);
   display: flex;
   flex-direction: ${(props) => (props.toggled ? "column" : "row")};
-  justify-content: space-between;
   z-index: 3;
   transition: 0.2s;
+
+  .isActiveLinkB {
+    color: var(--primary-yellow);
+    text-decoration: underline;
+
+    svg {
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  .isNotActiveLinkB {
+    display: ${(props) => (props.toggled ? "flex" : "none")};
+  }
+
+  .currentActive {
+    display: flex !important;
+  }
+
+  .mid {
+    position: ${(props) => (props.toggled ? "static" : "absolute")};
+    left: 50%;
+    transform: ${(props) => (props.toggled ? "" : "translateX(-50%)")};
+    bottom: 10px;
+  }
+  
+  .default {
+    display: flex;
+  }
+  
+  .special {
+    position: ${(props) => (props.toggled ? "static" : "absolute")};
+    display: ${(props) => (props.defaultIsActivated ? "flex" : "none")};
+    left: 50%;
+    transform: ${(props) => (props.toggled ? "" : "translateX(-50%)")};
+    bottom: 20px;
+  }
 
   div.menu {
     width: 100%;
@@ -513,24 +604,24 @@ const BottomMenu = styled.nav`
   }
 
   @media (max-width: 500px) {
-    li:nth-child(4),
+    /* li:nth-child(4),
     li:nth-child(5) {
       display: ${(props) => (props.toggled ? "block" : "none")};
-    }
+    } */
   }
 
   @media (max-width: 400px) {
-    li:nth-child(6),
+    /* li:nth-child(6),
     li:nth-child(7) {
       display: ${(props) => (props.toggled ? "block" : "none")};
-    }
+    } */
   }
 
   @media (max-width: 300px) {
-    li:nth-child(3),
+    /* li:nth-child(3),
     li:nth-child(8) {
       display: ${(props) => (props.toggled ? "block" : "none")};
-    }
+    } */
   }
 
   .pullMenu {
