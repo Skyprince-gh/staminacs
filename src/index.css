@@ -1,6 +1,6 @@
 
 
-:root {
+:root,html {
   --primary-yellow: #FFB800;
   --primary-black: #252525;
   --primary-bkg-fade: rgba(84, 84, 84, 0.87);
@@ -14,7 +14,7 @@
   --testcss: #00fb0d2e;
 }
 
-html {
+* {
   margin: 0px;
   padding: 0px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
