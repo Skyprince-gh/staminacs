@@ -161,6 +161,8 @@ const QuickModal = styled.div`
   align-items: center;
   flex-direction: column;
   z-index: 200;
+ 
+ 
 
   div.close {
     text-align: left;
@@ -230,28 +232,6 @@ const QuickModal = styled.div`
     margin-bottom: 10px;
     /* border: solid green 1px; */
     position: relative;
-
-    /* span.title {
-      width: fit-content;
-      padding: 0 20px;
-      border-radius: 10px;
-
-      &:hover {
-        border: solid 1px white;
-      }
-    }
-
-    span {
-      input {
-        outline: none;
-        padding-left: 20px;
-      }
-    }
-
-    .icon {
-      position: absolute;
-      right: 150px;
-    } */
   }
 
   .content {
@@ -285,6 +265,15 @@ const QuickModal = styled.div`
     }
     &:active {
       color: var(--primary-grey);
+    }
+  }
+
+  @media (max-width:720px) {
+    /* position: static; */
+    align-items: center;
+    
+    .user-profile{
+      margin-top:40px;
     }
   }
 `;

@@ -82,7 +82,7 @@ const RightSidebar = () => {
                   <span>{UserName}</span>
                 </h4>
                 <p>Store Manager</p>
-              </Fragment>
+              </Fragment >
             )}
           </div>
 
@@ -210,6 +210,20 @@ const RightSidebar = () => {
             <div className="pullMenu" onClick={triggerBottomMenu}>
               <ExpandLess />
             </div>
+              <div className="user-info">
+                {bottomMenuIsActive && (
+                  <UserImg src={userImageURL} onClick={toggleSignOut} />
+                )}
+                {bottomMenuIsActive && (
+                  <div className="cred">
+                    <h4 className="userName">
+                      {" "}
+                      <span>{UserName}</span>
+                    </h4>
+                    <p>Store Manager</p>
+                  </div>
+                )}
+              </div>
             <div className="menu">
               <ul>
                 <li>
@@ -508,6 +522,20 @@ const BottomMenu = styled.nav`
   z-index: 3;
   transition: 0.2s;
 
+  .user-info{
+    /* border: solid red 2px; */
+    display: flex;
+    justify-content: flex-start;
+    padding-left: 20px;
+    margin-top: 50px;
+    gap: 20px;
+
+    .cred{
+      /* border: solid yellow 2px; */
+      flex-grow: 1;
+    }
+  }
+
   .isActiveLinkB {
     color: var(--primary-yellow);
     text-decoration: underline;
@@ -532,11 +560,11 @@ const BottomMenu = styled.nav`
     transform: ${(props) => (props.toggled ? "" : "translateX(-50%)")};
     bottom: 10px;
   }
-  
+
   .default {
     display: flex;
   }
-  
+
   .special {
     position: ${(props) => (props.toggled ? "static" : "absolute")};
     display: ${(props) => (props.defaultIsActivated ? "flex" : "none")};

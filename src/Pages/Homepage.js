@@ -46,10 +46,6 @@ const Homepage = () => {
           <img src="/images/devices.png" alt="" />
         </RSide>
       </Main>
-      {/* <Band>
-        Effective and Efficient Inventory Management at Home, Work or On The Go
-      </Band>
-      <Footer /> */}
     </Grid>
   );
 };
@@ -63,10 +59,11 @@ const Grid = styled.div`
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
+  /* overflow-x: hidden; */
 `;
 
 const Bar = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 3rem;
   box-shadow: 0px 3px 2.5px var(--shadow-color);
   display: flex;
@@ -134,7 +131,7 @@ const Button = styled.button`
 `;
 
 const Main = styled.div`
-  width: 100vw;
+  width: 100%;
   position: relative;
   display: flex;
   margin-bottom: 4rem;
@@ -292,7 +289,7 @@ display: none;
 `
 
 const Band = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 7rem;
   background: #e2b43b;
   display: flex;
@@ -309,7 +306,7 @@ const Band = styled.div`
 `;
 
 const Footer = styled.div`
-  width: 100vw;
+  width: 100%;
   flex-grow: 1;
   background: url("/images/footer.jpg");
   height: 100px;

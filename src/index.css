@@ -1,6 +1,6 @@
 
 
-:root,html {
+:root{
   --primary-yellow: #FFB800;
   --primary-black: #252525;
   --primary-bkg-fade: rgba(84, 84, 84, 0.87);
@@ -87,6 +87,8 @@ body {
   width: 20rem;
   /* Starting width */
   animation: expandWidth 0.5s ease-in-out 0.2s forwards;
+
+  
 }
 
 .outro-animate {
