@@ -50,6 +50,9 @@ const LogoContainer = styled.div`
   padding-left: 1rem; /* Adjust the padding as needed */
   margin-right: 5rem;
 
+  @media (max-width: 750px) {
+    margin-right: 2rem;
+  }
   @media (max-width: 300px) {
       width:100%;
       /* border: solid 1px red; */
@@ -61,9 +64,7 @@ const LogoContainer = styled.div`
 
 const LogoImage = styled.img`
   width: 100px; /* Adjust the width as needed */
-  height: 100px; /* Adjust the height as needed */
-
-  
+  height: 100px; /* Adjust the height as needed */ 
   
 `; 
 
@@ -75,10 +76,19 @@ const TitleContainer = styled.div`
   font-weight: bold;
   /* border: solid red 1px; */
 
+  @media (max-width: 750px) {
+    /* height: 40px; */
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow:hidden;
+    width: 200px;
+    margin-right: 1.5rem;
+  }
   @media (max-width: 450px) {
       display:flex;
-      justify-content: flex-end;
-      padding-right: 10px
+      justify-content: flex-start;
+      margin-right: 1rem;
+      /* padding-right: 10px */
   }
 
   @media (max-width: 300px) {

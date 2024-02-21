@@ -691,10 +691,11 @@ const Grid = styled.form`
     width: 90%;
   }
   @media (max-width: 800px) {
-    width: calc(100% - 20px);
-    height: 80%;
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
   }
-
+  
   h3 {
     margin: 20px 0 5px 0px;
     width: fit-content;
@@ -707,6 +708,11 @@ const Grid = styled.form`
     position: relative;
     left: -20px;
     padding: 0 20px;
+
+    @media (max-width: 350px) {
+      font-size: 14px;
+      height: 30px
+    }
   }
 
   #main {
@@ -829,7 +835,9 @@ const Grid = styled.form`
 
         @media (max-width: 800px) {
           width: 400px;
-          height: 200px;
+          /* height: 200px; */
+          margin-bottom: 2rem;
+          height:20rem;
         }
 
         &:hover {

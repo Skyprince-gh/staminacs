@@ -234,67 +234,66 @@ const PaginatedList = () => {
   };
 
   return (
-    <Container>
+    <Fragment>
       {items.length === 0 && (
-        <button
-          className="refresh"
+        <RefreshButton
           onClick={(e) => {
             fetchIventoryItems(100).then((value) => {
               const loaded = value.slice(0, 10);
               setItemsShowing(loaded);
-              handleResize();
-
-              window.removeEventListener("resize", handleResize);
             });
           }}
         >
           Refresh <RefreshOutlined />
-        </button>
+        </RefreshButton>
       )}
-      {items.length !== 0 &&
-        sort(cleanUp(filterBySearch(itemsShowing)), sortBy, orderPref)
-          .filter((item) => {
-            if (categoryFilter === "all") {
-              return true;
-            } else {
-              return item.category === categoryFilter ? true : false;
-            }
-          })
-          .map((item, index) => <Item data={item} key={item.id + index} />)}
 
-      {items.length > 0 && (
-        <Controls>
-          <button className="index" onClick={goToPrevious}>
-            previous
-          </button>
-          <div className="mid">
-            {new Array(buttonFillRate).fill(0).map((page, index) => {
-              return (
-                <button
-                  className={
-                    currentPage === index + buttonIndex ? "current" : ""
-                  }
-                  onClick={(e) => changePage(index + buttonIndex)}
-                  key={index + buttonIndex}
-                >
-                  {index + buttonIndex}
-                </button>
-              );
-            })}
-          </div>
-          {nextIsActive && (
-            <button className="index" onClick={goToNext}>
-              Next
+      <Container>
+        {items.length !== 0 &&
+          sort(cleanUp(filterBySearch(itemsShowing)), sortBy, orderPref)
+            .filter((item) => {
+              if (categoryFilter === "all") {
+                return true;
+              } else {
+                return item.category === categoryFilter ? true : false;
+              }
+            })
+            .map((item, index) => <Item data={item} key={item.id + index} />)}
+
+        {items.length > 0 && (
+          <Controls>
+            <button className="index" onClick={goToPrevious}>
+              previous
             </button>
-          )}
-          {!nextIsActive && (
-            <div className="">
-              <RefreshOutlined />
+            <div className="mid">
+              {new Array(buttonFillRate).fill(0).map((page, index) => {
+                return (
+                  <button
+                    className={
+                      currentPage === index + buttonIndex ? "current" : ""
+                    }
+                    onClick={(e) => changePage(index + buttonIndex)}
+                    key={index + buttonIndex}
+                  >
+                    {index + buttonIndex}
+                  </button>
+                );
+              })}
             </div>
-          )}
-        </Controls>
-      )}
-    </Container>
+            {nextIsActive && (
+              <button className="index" onClick={goToNext}>
+                Next
+              </button>
+            )}
+            {!nextIsActive && (
+              <div className="">
+                <RefreshOutlined />
+              </div>
+            )}
+          </Controls>
+        )}
+      </Container>
+    </Fragment>
   );
 };
 
@@ -309,34 +308,6 @@ const Container = styled.section`
   margin-top: 0px;
   overflow-y: scroll;
   padding-top: 10px;
-  .refresh {
-    width: 150px;
-    height: 30px;
-    margin-top: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0px 20px;
-    gap: 20px;
-    margin: 0 auto;
-    border-radius: 15px;
-    background: var(--primary-black);
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-    border: none;
-    position: relative;
-    top: 150px;
-
-    &:hover {
-      background-color: transparent;
-      color: black;
-      border: solid 2px var(--primary-black);
-    }
-    &:active {
-      background-color: var(--primary-yellow);
-    }
-  }
 `;
 
 const Controls = styled.div`
@@ -440,5 +411,34 @@ const Controls = styled.div`
         transform: rotate(360deg);
       }
     }
+  }
+`;
+
+const RefreshButton = styled.button`
+  width: 150px;
+  height: 30px;
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 20px;
+  gap: 20px;
+  margin: 0 auto;
+  border-radius: 15px;
+  background: var(--primary-black);
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  position: relative;
+  top: 150px;
+
+  &:hover {
+    background-color: transparent;
+    color: black;
+    border: solid 2px var(--primary-black);
+  }
+  &:active {
+    background-color: var(--primary-yellow);
   }
 `;

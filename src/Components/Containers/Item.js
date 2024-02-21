@@ -286,6 +286,15 @@ const Expansion = (props) => {
       <div className="image">
         <img src={itemData.image} alt={itemData.name} />
       </div>
+
+      <button
+        onClick={(e) => {
+          props.handleMoreInfo(e);
+          props.toggle(e);
+        }}
+      >
+        Edit Item
+      </button>
       <span className="info-name">
         <h5>Product Name</h5>
         <p>{itemData.name}</p>
@@ -342,14 +351,6 @@ const Expansion = (props) => {
         <h5>Description</h5>
         <p>{itemData.description}</p>
       </span>
-      <button
-        onClick={(e) => {
-          props.handleMoreInfo(e);
-          props.toggle(e);
-        }}
-      >
-        Edit Item
-      </button>
     </ExpandedCardGrid>
   );
 };
@@ -381,7 +382,7 @@ const ExpandedCardGrid = styled.div`
   overflow-y: scroll;
 
   div.image {
-    margin: 60px auto;
+    margin: 60px auto 10px auto;
     display: flex;
     justify-content: center;
     width: 200px;
@@ -418,7 +419,7 @@ const ExpandedCardGrid = styled.div`
     font-weight: bold;
     border: none;
     border-radius: 20px;
-    margin: 60px auto;
+    margin: 10px auto;
     justify-content: center;
     align-items: center;
 

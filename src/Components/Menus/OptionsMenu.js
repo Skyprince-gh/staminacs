@@ -17,8 +17,8 @@ const OptionsMenu = (props) => {
   };
 
   const handleViewToggle = (event) => {
-    console.log("view is toggled")
-    setViewListIsActive(!viewListIsActive)
+    console.log("view is toggled");
+    setViewListIsActive(!viewListIsActive);
   };
 
   return (
@@ -30,10 +30,12 @@ const OptionsMenu = (props) => {
           View <ArrowRight />{" "}
         </li> */}
       </Grid>
-      {viewListIsActive && <Views>
-        <li>Paginated</li>
-        <li>Listed</li>
-      </Views>}
+      {viewListIsActive && (
+        <Views>
+          <li>Paginated</li>
+          <li>Listed</li>
+        </Views>
+      )}
       <ToggleBackground
         className="background"
         onClick={props.toggleOptions}
@@ -58,12 +60,16 @@ const Grid = styled.ul`
   border-radius: 10px;
   z-index: 3;
 
-  @media (max-width:1000px) {
+  @media (max-width: 1300px) {
+    left: 40px;
+  }
+
+  @media (max-width: 1100px) {
     left: 20px;
-    width: 15rem;
-    height: 10rem;
-    font-size: 2rem;
-    row-gap: 20px;
+    font-size: 20px;
+    gap: 20px;
+    padding: 20px;
+    width: 10rem;
   }
 
   li {
@@ -71,21 +77,18 @@ const Grid = styled.ul`
     width: 100%;
     padding: 5px;
     justify-content: space-between;
+    color: var(--primary-yellow);
+  }
 
-    &:hover {
-      color: var(--primary-yellow);
-    }
-
-    &:active {
-      color: white;
-    }
+  &:active {
+    color: white;
   }
 `;
 
 const Views = styled(Grid)`
-left:240px;
-top: 100px;
-`
+  left: 240px;
+  top: 100px;
+`;
 
 const ToggleBackground = styled.div`
   position: fixed;

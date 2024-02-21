@@ -790,15 +790,14 @@ const Modal = styled.div`
   }
 
   @media (max-width: 900px) {
-    width: 98%;
-    height: 80%;
+    width: 100%;
+    height: 100%;
 
     .mid {
       position: absolute;
       top: 50px;
       width: 100%;
       flex-wrap: wrap;
-      border: solid blue 2px;
       margin-left: 0px;
     }
 
@@ -922,10 +921,9 @@ const Modal = styled.div`
 
       @media (max-width: 900px) {
         position: absolute;
-        top: 50px;
+        top: 70px !important;
         width: 100%;
         flex-wrap: wrap;
-        border: solid blue 2px;
         margin-left: 0px;
       }
     }

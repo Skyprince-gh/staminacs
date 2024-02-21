@@ -203,40 +203,19 @@ const Grid = styled.form`
   @media (max-width: 900px) {
     width: 80%;
   }
-  @media (max-width: 600px) {
+  @media (max-width: 700px) {
     width: 90%;
   }
-  @media (max-width: 500px) {
-    height: 500px;
+  @media (max-width: 600px) {
+    width: 100%;
   }
 `;
 
-// const Close = styled.button`
-//   position: absolute;
-//   right: 10px;
-//   top: 10px;
-//   width: 30px;
-//   height: 30px;
-//   font-size: 20px;
-//   font-weight: bold;
-//   background: none;
-//   border: none;
-//   color: var(--primary-black);
-
-//   &:hover {
-//     color: var(--primary-yellow);
-//   }
-
-//   &:active {
-//     color: var(--red);
-//   }
-// `;
-
 const Fields = styled.div`
   display: flex;
-  width: 90%;
-  justify-content: space-around;
-  gap: 20px;
+  width: calc(90%);
+  justify-content: space-between;
+  /* gap: 20px; */
   margin: 0 auto;
 
   div.inputSpace:nth-child(1) {
@@ -249,8 +228,25 @@ const Fields = styled.div`
     width: 20%;
   }
 
+  @media (max-width: 600px) {
+    gap: 10px;
+
+    div.inputSpace:nth-child(1) {
+      width: 25%;
+    }
+
+    div.inputSpace:nth-child(2) {
+      width: 25%;
+    }
+
+    div.inputSpace:nth-child(3) {
+      width: 25%;
+    }
+  }
+
   @media (max-width: 500px) {
     flex-direction: column;
+    flex-wrap: nowrap;
     div.inputSpace:nth-child(1),
     div.inputSpace:nth-child(2),
     div.inputSpace:nth-child(3) {
